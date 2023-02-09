@@ -1,0 +1,19 @@
+.btn_box{
+    display: flex;
+    justify-content: center;
+}
+
+.btn{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: whitesmoke;
+    border: 0;
+    border-radius: 10px;
+    height: 8vh;
+    width: 90%;
+    margin: 1.5vh 0;
+}
+
+.btn:hover{
+    background-color: #dedede;
+    cursor: pointer;
+}

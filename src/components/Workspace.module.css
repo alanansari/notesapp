@@ -1,6 +1,58 @@
 .container{
     background-color: whitesmoke;
     display: inline-flex;
+    margin-left: 25vw;
     width: 75vw;
-    height: 100vh;
+    min-height: 100vh;
 }
+
+.newnote_container{
+    display: flex;
+    background-color: lightskyblue;
+    border-radius: 10px;
+    padding: 5px 8px;
+    position: sticky;
+    margin: 5vh auto;
+    height: fit-content;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+
+.topchild{
+    width: 100%;
+    height: fit-content;
+}
+
+
+
+.textbox{
+    background-color: #b6ebfa;
+    border: 0;
+    border-radius: 10px;
+    padding: 1vh;
+    margin: 1vh;
+    width: 20vw;
+    min-height: 6vh;
+}
+
+.textbox[placeholder]:empty:before {
+    content: attr(placeholder);
+    color: grey;
+}
+
+.create{
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background-color: #b6ebfa;
+    border: 0;
+    border-radius: 10px;
+    height: 7vh;
+    width: 4vw;
+    margin: 1.5vh 0;
+}
+
+.create:hover {
+    cursor: pointer;
+}
+
