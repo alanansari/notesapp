@@ -2,15 +2,16 @@ import styles from './Workspace.module.css'
 import Card from './Card';
 import { useState } from 'react';
 
-const prev_notes = [{text:'hello this is the first note to be displayed.'},
-{text:'second note to be displayed is this'}];
+const prev_notes = JSON.parse(localStorage.getItem('saved_notes')) || [];
+
+console.log(prev_notes)
 
 function handleClick(props){
     let new_text = document.getElementById('textbox').innerHTML;
     if(new_text==='') return;
-    const newlist = props.notes;
-    console.log(newlist);
-    props.addNote([...newlist,{text:new_text}]);
+    const newlist = [...props.notes,{text:new_text}];
+    props.addNote(newlist);
+    localStorage.setItem('saved_notes',JSON.stringify(newlist));
     new_text='';
 }
 
