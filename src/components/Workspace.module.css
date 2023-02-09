@@ -1,6 +1,6 @@
 .container{
     background-color: whitesmoke;
-    display: inline;
+    display: inline-flex;
     width: 75vw;
     height: 100vh;
 }

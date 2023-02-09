@@ -1,9 +1,18 @@
 import styles from './Navbar.module.css'
 
-export default function Navbar({heading}){
+function Button() {
+    return(
+        <div className={styles.btn_box}>
+            <button className={styles.btn}>Sticky Notes</button>
+        </div>
+    );
+}
+
+export default function Navbar(){
     return (
         <div className={styles.container}>
-            {heading}
+            <h1 className={styles.heading}>Notes</h1>
+            <Button/>
         </div>
     );
 }
