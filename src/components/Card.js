@@ -11,10 +11,7 @@ export default function Card({card_obj}){
     return (
         <div className={styles.card}>
             <div className={styles.header}></div>
-            <div className={styles.textarea} contentEditable='true' spellCheck='false'>{card_obj.text}</div>
-            <div className={styles.footer}>
-                <button className={styles.btn} >Save</button>
-            </div>
+            <div className={styles.textarea}>{card_obj.text}</div>
         </div>
     );
 }

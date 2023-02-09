@@ -10,7 +10,8 @@
 
 .textarea{
     width: 90%;
-    min-height:25vh;
+    min-height:30vh;
+    overflow-wrap: break-word;
     padding: 1vw;
 }
 
