@@ -3,16 +3,13 @@
     flex-direction: column;
     width: 20vw;
     min-height: 35vh;
-    background-color: lightskyblue;
+    background-color: #d5d793;
     margin: 2vh;
     border-radius: 10px;
 }
 
-.textarea{
-    width: 90%;
-    min-height:30vh;
-    overflow-wrap: break-word;
-    padding: 1vw;
+.card:hover .delete_btn{
+    visibility: visible;
 }
 
 .header,.footer{
@@ -20,23 +17,36 @@
     width: 100%;
 }
 
-.footer{
+.header{
     display: flex;
-    justify-content: center;
+    border-radius:10px 10px 0 0;
+    justify-content: end;
     align-items: center;
 }
 
-.btn{
-    background-color: lightskyblue;
-    color: rgb(58, 52, 52);
-    border: 0;
-    height: 100%;
-    width: 100%;
-    border-radius: 0 0 10px 10px;
+.textarea{
+    color: #393737;
+    width: 90%;
+    min-height:30vh;
+    overflow-wrap: break-word;
+    padding: 1vw;
 }
 
-.btn:hover{
+
+.delete_btn{
+    visibility: hidden;
+    color: #4e4e4e;
+    font-size: 12px;
+    background-color: transparent;
+    border: 0;
+    padding: 1%;
+    margin: 1% 0;
+    border-radius: 50px;
+    height: fit-content;
+    width: fit-content;
+}
+
+.delete_btn:hover{
     cursor: pointer;
-    background-color: #749fe4;
-    color: azure;
+    background-color: #eca2a2;
 }

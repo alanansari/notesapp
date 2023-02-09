@@ -1,5 +1,6 @@
 .container{
     background-color: whitesmoke;
+    box-sizing: border-box;
     display: inline-flex;
     flex-direction: column;
     margin-left: 25vw;
@@ -8,8 +9,10 @@
 }
 
 .newnote_container{
+    position: sticky;
     display: flex;
     background-color: lightskyblue;
+    box-sizing: border-box;
     border-radius: 10px;
     padding: 5px 8px;
     position: sticky;
@@ -22,18 +25,31 @@
 
 .topchild{
     width: 100%;
+    box-sizing: border-box;
     height: fit-content;
 }
 
+.bottomchild{
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    padding: 0 2vw;
+    width: 100%;
+    height: 100%;
+}
 
 
 .textbox{
     background-color: #b6ebfa;
+    box-sizing: border-box;
+    color:#393737;
     border: 0;
     border-radius: 10px;
     padding: 1vh;
     margin: 1vh;
-    width: 20vw;
+    width: 40vw;
     min-height: 6vh;
 }
 
@@ -48,8 +64,8 @@
     background-color: #b6ebfa;
     border: 0;
     border-radius: 10px;
-    height: 7vh;
-    width: 4vw;
+    height: 6vh;
+    width: 3.5vw;
     margin: 1.5vh 0;
 }
 
@@ -58,11 +74,3 @@
     background-color: #749fe4;
 }
 
-.bottomchild{
-    display: flex;
-    justify-content: baseline;
-    align-items: baseline;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
-}
