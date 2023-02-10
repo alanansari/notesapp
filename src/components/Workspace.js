@@ -8,6 +8,7 @@ function handleClick(props){
     let new_text = document.getElementById('textbox').innerText;
     if(new_text==='') return;
     const newlist = [...props.notes,{text:new_text}];
+    console.log(newlist);
     props.addNote(newlist);
     localStorage.setItem('saved_notes',JSON.stringify(newlist));
     document.getElementById('textbox').innerText = '';
