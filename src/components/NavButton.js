@@ -1,12 +1,18 @@
 import styles from './NavButton.module.css'
+import { useNavigate } from 'react-router-dom'
 
 export default function NavButton(props) {
 
+    const navigate = useNavigate();
+
     function handleClick(){
-        window.location.pathname = props.link;
+        navigate(props.link);
     }
 
-    const active = window.location.pathname!=='/'&&(props.link.match(window.location.pathname))?styles.active:'';
+    const path = window.location.pathname;
+    
+    let active = path!=='/'&&(props.link.match(path))?styles.active:'';
+    if(path==='/'&&props.link==='/notesapp') active=styles.active;
 
     return(
         <div className={styles.btn_box}>
