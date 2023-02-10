@@ -13,7 +13,7 @@ export default function Card(props){
         <div className={styles.card}>
             <div className={styles.header}>
                 <button className={styles.edit_btn}>
-                ✍️
+                ✏️
                 </button>
                 <button className={styles.delete_btn} onClick={()=>
                     deleteCard(props)}>✖️

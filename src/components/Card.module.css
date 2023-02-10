@@ -3,7 +3,7 @@
     flex-direction: column;
     width: 20vw;
     min-height: 35vh;
-    background-color: #d5d793;
+    background-color: #dadc9e;
     margin: 2vh;
     border-radius: 10px;
 }
@@ -11,6 +11,11 @@
 .card:hover .delete_btn{
     visibility: visible;
 }
+
+.card:hover .edit_btn{
+    visibility: visible;
+}
+
 
 .header,.footer{
     height: 4vh;
@@ -36,10 +41,10 @@
 .delete_btn,.edit_btn{
     visibility: hidden;
     background-color: transparent;
-    font-size: 12px;
+    font-size: 14px;
     border: 0;
     padding: 1%;
-    margin: 1% 0;
+    margin-left: 1.5%;
     height: fit-content;
     width: fit-content;
     border-radius: 50px;
@@ -47,7 +52,7 @@
 
 .edit_btn:hover{
     cursor: pointer;
-    background-color: lightskyblue;
+    background-color: greenyellow;
 }
 
 .delete_btn:hover{

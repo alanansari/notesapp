@@ -1,12 +1,14 @@
-import styles from './Workspace.module.css'
+import styles from './StickyNotes.module.css'
 import Card from './Card';
 import { useState } from 'react';
+import {convertToText} from '../utils/editDiv'
 
 const prev_notes = JSON.parse(localStorage.getItem('saved_notes')) || [];
 
 function handleClick(props){
     let new_text = document.getElementById('textbox').innerText;
     if(new_text==='') return;
+    new_text = convertToText(new_text);
     const newlist = [{text:new_text},...props.notes];
     props.addNote(newlist);
     localStorage.setItem('saved_notes',JSON.stringify(newlist));
