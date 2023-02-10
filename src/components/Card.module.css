@@ -20,7 +20,7 @@
 .header{
     display: flex;
     border-radius:10px 10px 0 0;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
 }
 
@@ -33,17 +33,21 @@
 }
 
 
-.delete_btn{
+.delete_btn,.edit_btn{
     visibility: hidden;
-    color: #4e4e4e;
-    font-size: 12px;
     background-color: transparent;
+    font-size: 12px;
     border: 0;
     padding: 1%;
     margin: 1% 0;
-    border-radius: 50px;
     height: fit-content;
     width: fit-content;
+    border-radius: 50px;
+}
+
+.edit_btn:hover{
+    cursor: pointer;
+    background-color: lightskyblue;
 }
 
 .delete_btn:hover{
