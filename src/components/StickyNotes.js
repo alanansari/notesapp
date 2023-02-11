@@ -34,7 +34,30 @@ export default function Workspace(){
                 <NewNoteBar notes={notes} addNote={setNotes} />
             </div>
             <div className={styles.bottomchild}>
-               {notes.map((note,i) => <Card key={crypto.randomUUID()} index={i} notes={notes} card_obj={note} setNotes={setNotes}/>)}
+                <div className={styles.row}>
+                    {notes.map((note,i) => {
+                            if(i%3===0)
+                            return <Card key={crypto.randomUUID()} index={i} notes={notes} card_obj={note} setNotes={setNotes}/>
+                            else
+                            return <></>;
+                        })}
+                </div>
+                <div className={styles.row}>
+                    {notes.map((note,i) => {
+                            if(i%3===1)
+                            return <Card key={crypto.randomUUID()} index={i} notes={notes} card_obj={note} setNotes={setNotes}/>
+                            else
+                            return <></>;
+                        })}
+                </div>
+                <div className={styles.row}>
+                    {notes.map((note,i) => {
+                            if(i%3===2)
+                            return <Card key={crypto.randomUUID()} index={i} notes={notes} card_obj={note} setNotes={setNotes}/>
+                            else
+                            return <></>;
+                        })}
+                </div>
             </div>
         </div>
     );
