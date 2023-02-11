@@ -7,7 +7,15 @@ function handleClick(props){
     let new_text = document.getElementById('textbox').innerText;
     if(new_text==='') return;
     new_text = convertToText(new_text);
-    const newlist = [{text:new_text},...props.notes];
+    const date = new Date();
+    const formattedDate = date.toLocaleString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+      });
+    const newlist = [{text:new_text,timestamp:formattedDate},...props.notes];
     props.addNote(newlist);
     localStorage.setItem('saved_notes',JSON.stringify(newlist));
     document.getElementById('textbox').innerHTML = '';
