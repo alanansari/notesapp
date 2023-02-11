@@ -9,8 +9,9 @@ export default function NavButton(props) {
         navigate(props.link);
     }
 
-    const path = window.location.pathname;
-    
+    let path = window.location.pathname;
+    path = path.replaceAll('/','');
+    console.log(path)
     let active = path!=='/'&&(props.link.match(path))?styles.active:'';
     if(path==='/'&&props.link==='/notesapp') active=styles.active;
 

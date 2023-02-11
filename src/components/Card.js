@@ -1,4 +1,5 @@
 import styles from "./Card.module.css";
+import {convertToMarkup} from '../utils/editDiv'
 
 function deleteCard(props){
     const notes = props.notes;
@@ -19,7 +20,7 @@ export default function Card(props){
                     deleteCard(props)}>✖️
                 </button>
             </div>
-            <div className={styles.textarea}>{props.card_obj.text}</div>
+            <div className={styles.textarea} dangerouslySetInnerHTML={{__html: convertToMarkup(props.card_obj.text)}} />
         </div>
     );
 }

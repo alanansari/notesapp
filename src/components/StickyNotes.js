@@ -12,7 +12,7 @@ function handleClick(props){
     const newlist = [{text:new_text},...props.notes];
     props.addNote(newlist);
     localStorage.setItem('saved_notes',JSON.stringify(newlist));
-    document.getElementById('textbox').innerText = '';
+    document.getElementById('textbox').innerHTML = '';
 }
 
 function NewNoteBar(props){
