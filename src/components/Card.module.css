@@ -18,15 +18,19 @@
 
 
 .header,.footer{
+    display: flex;
     height: 4vh;
     width: 100%;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .header{
-    display: flex;
     border-radius:10px 10px 0 0;
-    justify-content: flex-end;
-    align-items: center;
+}
+
+.footer{
+    border-radius:0 0 10px 10px;
 }
 
 .textarea{

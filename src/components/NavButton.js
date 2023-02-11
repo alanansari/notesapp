@@ -12,8 +12,9 @@ export default function NavButton(props) {
     let path = window.location.pathname;
     path = path.replaceAll('/','');
     console.log(path)
-    let active = path!=='/'&&(props.link.match(path))?styles.active:'';
-    if(path==='/'&&props.link==='/notesapp') active=styles.active;
+    let active = '';
+    if((path===''||path==='notesapp')&&(props.link==='/notesapp')) active=styles.active;
+    if(path==='notesapptasks'&&(props.link==='/notesapp/tasks')) active=styles.active;
 
     return(
         <div className={styles.btn_box}>

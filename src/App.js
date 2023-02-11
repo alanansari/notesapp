@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <Navbar/>
       <Routes>
-        <Route path='/tasks' element={ <Tasks /> } />
+        <Route path='/notesapp/tasks' element={ <Tasks /> } />
         <Route path='/'>
           <Route element={<StickyNotes/>} path=''/>
           <Route element={<StickyNotes/>} path='notesapp'/>

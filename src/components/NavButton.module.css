@@ -22,4 +22,9 @@
     background-color: #c8c8c8;
 }
 
+.active:hover{
+    background-color: #c8c8c8;
+    cursor: auto;
+}
+
 

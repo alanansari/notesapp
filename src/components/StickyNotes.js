@@ -3,8 +3,6 @@ import Card from './Card';
 import { useState } from 'react';
 import {convertToText} from '../utils/editDiv'
 
-const prev_notes = JSON.parse(localStorage.getItem('saved_notes')) || [];
-
 function handleClick(props){
     let new_text = document.getElementById('textbox').innerText;
     if(new_text==='') return;
@@ -26,7 +24,7 @@ function NewNoteBar(props){
 
 export default function Workspace(){
 
-    const [notes,setNotes] = useState(prev_notes);
+    const [notes,setNotes] = useState(JSON.parse(localStorage.getItem('saved_notes')) || []);
 
     return(
         <div className={styles.container}>
