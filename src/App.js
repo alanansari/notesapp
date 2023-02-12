@@ -1,5 +1,5 @@
 import './App.css';
-import StickyNotes from './components/StickyNotes';
+import StickyNotesWorkspace from './components/StickyNotesWorkspace';
 import Navbar from './components/Navbar';
 import Tasks from './components/Tasks';
 import { Route,Routes } from 'react-router-dom';
@@ -12,8 +12,8 @@ function App() {
       <Routes>
         <Route path='/notesapp/tasks' element={ <Tasks /> } />
         <Route path='/'>
-          <Route element={<StickyNotes/>} path=''/>
-          <Route element={<StickyNotes/>} path='notesapp'/>
+          <Route element={<StickyNotesWorkspace/>} path=''/>
+          <Route element={<StickyNotesWorkspace/>} path='notesapp'/>
         </Route>
       </Routes>
     </div>

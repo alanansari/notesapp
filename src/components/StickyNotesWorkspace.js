@@ -1,12 +1,15 @@
-import styles from './StickyNotes.module.css'
+import styles from './StickyNotesWorkspace.module.css'
 import Card from './Card';
 import { useState } from 'react';
 import {convertToText} from '../utils/editDiv'
 
 function handleClick(props){
     let new_text = document.getElementById('textbox').innerText;
-    if(new_text==='') return;
     new_text = convertToText(new_text);
+    if(new_text==='') {
+        document.getElementById('textbox').innerHTML = '';
+        return;
+    }
     const date = new Date();
     const formattedDate = date.toLocaleString("en-GB", {
         day: "numeric",
