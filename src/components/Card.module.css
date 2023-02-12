@@ -2,10 +2,10 @@
     display: flex;
     flex-direction: column;
     width: 20vw;
-    min-height: 35vh;
     background-color: #dadc9e;
     margin: 2vh;
     border-radius: 10px;
+    align-items: center;
 }
 
 .card:hover .delete_btn{
@@ -69,4 +69,13 @@
     padding: 0 5%;
     font-size: x-small;
     color: #606060;
+}
+
+@media (max-width: 710px){
+    .card{
+        width: 50vw;
+    }
+    .textarea{
+        min-height: 20vh;
+    }
 }

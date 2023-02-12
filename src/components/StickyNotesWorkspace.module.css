@@ -78,3 +78,18 @@
     align-items: center;
     height: auto;
 }
+
+@media (max-width: 710px){
+    .bottomchild{
+        grid-template-columns: 1fr;
+    }
+    .row{
+        height: fit-content;
+    }
+    .textbox{
+        width: 50vw;
+    }
+    .create{
+        width: 10vw;
+    }
+}
