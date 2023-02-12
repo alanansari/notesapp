@@ -43,7 +43,7 @@ export default function Card(props){
                 ✏️
                 </button>
                 <button className={styles.delete_btn} onClick={()=>
-                    deleteCard(props)}>✖️
+                    deleteCard(props)}>❌
                 </button>
             </div>
             <div

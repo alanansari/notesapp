@@ -8,6 +8,10 @@
     align-items: center;
 }
 
+.card:hover{
+    box-shadow: 1px 1px 3px 1px #9a9696;
+}
+
 .card:hover .delete_btn{
     visibility: visible;
 }
@@ -46,7 +50,7 @@
 .delete_btn,.edit_btn{
     visibility: hidden;
     background-color: transparent;
-    font-size: 14px;
+    font-size: 12px;
     border: 0;
     padding: 1%;
     margin-left: 1.5%;
