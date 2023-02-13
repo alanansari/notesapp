@@ -1,7 +1,7 @@
 import styles from './StickyNotesWorkspace.module.css'
 import Card from './Card';
 import { useState } from 'react';
-import {convertToText} from '../utils/editDiv'
+import {convertToText,convertOnPaste} from '../utils/editDiv'
 
 function handleClick(props){
     let new_text = document.getElementById('textbox').innerText;
@@ -27,7 +27,11 @@ function handleClick(props){
 function NewNoteBar(props){
     return(
         <div className={styles.newnote_container}>
-            <div id='textbox' className={styles.textbox} placeholder='Make a note...'  contentEditable='true'></div>
+            <div id='textbox' 
+                className={styles.textbox} 
+                placeholder='Make a note...'  
+                contentEditable='true'
+                onPaste={(event)=>convertOnPaste(event)}></div>
             <button className={styles.create} onClick={()=>handleClick(props)}>▶</button>
         </div>
     );

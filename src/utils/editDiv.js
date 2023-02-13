@@ -1,3 +1,5 @@
+const f = 'function';
+const o = 'object';
 
 const convertToText = (str = '') => {
     // Ensure string.
@@ -42,4 +44,42 @@ const convertToMarkup = (str = '') => {
     return convertToText(str).replace(/\n/g, '<br />');
 };
 
-export { convertToMarkup,convertToText };
+const convertOnPaste = (
+  event = {
+    preventDefault() {},
+  }
+) => {
+  console.log('called');
+  // Prevent paste.
+  event.preventDefault();
+
+  // Set later.
+  let value = '';
+
+  // Does method exist?
+  const hasEventClipboard = !!(
+    event.clipboardData &&
+    typeof event.clipboardData === o &&
+    typeof event.clipboardData.getData === f
+  );
+
+  // Get clipboard data?
+  if (hasEventClipboard) {
+    value = event.clipboardData.getData('text/plain');
+  }
+
+  // Insert into temp `<textarea>`, read back out.
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = value;
+  value = textarea.innerText;
+
+  // Clean up text.
+  value = convertToText(value);
+
+  // Insert text.
+  if (typeof document.execCommand === f) {
+    document.execCommand('insertText', false, value);
+  }
+};
+
+export { convertToMarkup,convertToText,convertOnPaste };

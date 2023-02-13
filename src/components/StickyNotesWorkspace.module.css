@@ -55,6 +55,13 @@
     color: grey;
 }
 
+.textbox:focus{
+    outline-style: dashed;
+    outline-width: .1rem;
+    outline-color: #393737;
+    outline-offset: .1rem;
+}
+
 .create{
     color: white;
     background-color: #b6ebfa;

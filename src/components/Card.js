@@ -1,6 +1,6 @@
 import styles from "./Card.module.css";
 import {convertToMarkup} from '../utils/editDiv'
-import {convertToText} from '../utils/editDiv'
+import {convertToText,convertOnPaste} from '../utils/editDiv'
 
 function deleteCard(props){
     const notes = props.notes;
@@ -49,7 +49,8 @@ export default function Card(props){
             <div
                 onBlur={()=>{saveEdited(props)}}
                 className={`${styles.textarea} card_${props.index}`}
-                dangerouslySetInnerHTML={{__html: convertToMarkup(props.card_obj.text)}} />
+                dangerouslySetInnerHTML={{__html: convertToMarkup(props.card_obj.text)}}
+                onPaste={(event)=>convertOnPaste(event)} />
             <div className={styles.footer}>
                 <p className={styles.timestamp}>{props.card_obj.timestamp||''}</p>
             </div>

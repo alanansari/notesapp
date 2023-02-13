@@ -1,0 +1,9 @@
+.container{
+    background-color: whitesmoke;
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: column;
+    margin-left: 25vw;
+    width: 75vw;
+    min-height: 100vh;
+}

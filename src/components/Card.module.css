@@ -46,6 +46,11 @@
     padding: 1vw;
 }
 
+.textarea:focus{
+    outline-style: groove;
+    outline-width: .1rem;
+    outline-color: #393737;
+}
 
 .delete_btn,.edit_btn{
     visibility: hidden;
