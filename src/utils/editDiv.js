@@ -2,6 +2,7 @@ const f = 'function';
 const o = 'object';
 
 const convertToText = (str = '') => {
+
     // Ensure string.
     let value = String(str);
   
@@ -11,16 +12,20 @@ const convertToText = (str = '') => {
   
     // Replace `<br>`.
     value = value.replace(/<br>/gi, '\n');
-  
+
     // Replace `<div>` (from Chrome).
     value = value.replace(/<div>/gi, '\n');
-  
+
+
     // Replace `<p>` (from IE).
     value = value.replace(/<p>/gi, '\n');
-  
+
+    //No more than 2x newline, per "paragraph".
+    value = value.replace(/\n\n+/g, '\n\n');
+
     // Remove extra tags.
     value = value.replace(/<(.*?)>/g, '');
-  
+
     // Trim each line.
     value = value
       .split('\n')
@@ -28,13 +33,6 @@ const convertToText = (str = '') => {
         return line.trim();
       })
       .join('\n');
-  
-    // No more than 2x newline, per "paragraph".
-    value = value.replace(/\n\n+/g, '\n\n');
-  
-    // Clean up spaces.
-    value = value.replace(/[ ]+/g, ' ');
-    value = value.trim();
   
     // Expose string.
     return value;

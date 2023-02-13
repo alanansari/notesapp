@@ -1,0 +1,51 @@
+.newnote_container{
+    display: flex;
+    background-color: lightskyblue;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 5px 8px;
+    margin: 5vh auto;
+    height: fit-content;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+
+.textbox{
+    background-color: #b6ebfa;
+    box-sizing: border-box;
+    color:#393737;
+    border: 0;
+    border-radius: 10px;
+    padding: 1vh;
+    margin: 1vh;
+    width: 40vw;
+    min-height: 6vh;
+}
+
+.textbox[placeholder]:empty:before {
+    content: attr(placeholder);
+    color: grey;
+}
+
+.textbox:focus{
+    outline-style: dashed;
+    outline-width: .1rem;
+    outline-color: #393737;
+    outline-offset: .1rem;
+}
+
+.create{
+    color: white;
+    background-color: #b6ebfa;
+    border: 0;
+    border-radius: 10px;
+    height: 6vh;
+    width: 4vw;
+    margin: 1.5vh 0;
+}
+
+.create:hover {
+    cursor: pointer;
+    background-color: #749fe4;
+}

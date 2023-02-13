@@ -1,7 +1,7 @@
 import './App.css';
 import StickyNotesWorkspace from './components/StickyNotesWorkspace';
 import Navbar from './components/Navbar';
-import Tasks from './components/Tasks';
+import TasksWorkspace from './components/TasksWorkspace';
 import { Route,Routes } from 'react-router-dom';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <Navbar/>
       <Routes>
-        <Route path='/notesapp/tasks' element={ <Tasks /> } />
+        <Route path='/notesapp/tasks' element={ <TasksWorkspace /> } />
         <Route path='/'>
           <Route element={<StickyNotesWorkspace/>} path=''/>
           <Route element={<StickyNotesWorkspace/>} path='notesapp'/>
