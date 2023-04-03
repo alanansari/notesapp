@@ -49,3 +49,12 @@
     cursor: pointer;
     background-color: #749fe4;
 }
+
+@media (max-width: 700px) {
+    .textbox{
+        width: 35vw;
+    }
+    .create{
+        width: 9vw;
+    }
+}

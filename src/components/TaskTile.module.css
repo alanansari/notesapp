@@ -1,0 +1,43 @@
+.tile{
+    width: 73vw;
+    display: flex;
+    flex-direction: row;
+    background: linear-gradient(90deg, rgba(108,255,87,1) 22%, rgba(235,166,191,1) 78%);
+    margin: 2vh;
+    box-sizing: border-box;
+    border-radius: 10px;
+    align-items: stretch;
+}
+
+.content{
+    color: #393737;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    padding: .5rem;
+    width: 59vw;
+    min-height: 8vh;
+    border-left:.2vw solid #49b13b ;
+    border-right:.2vw solid #c23a6c ;
+}
+
+.check,.cross{
+    min-height: 8vh;
+    width: 7vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+}
+.check:hover,.cross:hover{
+    background-color: #d9d9d9;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.check{
+    border-radius: 10px 0 0 10px;
+}
+
+.cross{
+    border-radius: 0 10px 10px 0;
+}

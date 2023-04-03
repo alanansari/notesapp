@@ -26,3 +26,11 @@
     width: 75vw;
     height: 100%;
 }
+
+.midtext{
+    margin: 2vh 0;
+    box-sizing: border-box;
+    padding-left: 7vw;
+    width: 70vw;
+    color: rgb(117, 114, 117);
+}

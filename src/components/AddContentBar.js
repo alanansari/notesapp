@@ -4,6 +4,7 @@ import {convertToText,convertOnPaste} from '../utils/editDiv'
 function handleClick(props){
     let new_text = document.getElementById('textbox').innerText;
     new_text = convertToText(new_text);
+    console.log(new_text);
     if(new_text==='') {
         document.getElementById('textbox').innerHTML = '';
         return;
@@ -22,7 +23,7 @@ function handleClick(props){
         localStorage.setItem('saved_notes',JSON.stringify(newlist));
     }
     if(props.type==='task'){
-        const newlist = [{text:new_text,timestamp:formattedDate},...props.tasks];
+        const newlist = [{text:new_text,done:false},...props.tasks];
         props.addTask(newlist);
         localStorage.setItem('saved_tasks',JSON.stringify(newlist));
     }
