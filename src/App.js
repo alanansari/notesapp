@@ -13,7 +13,6 @@ function App() {
         <Route path='/notesapp/tasks' element={ <TasksWorkspace /> } />
         <Route path='/'>
           <Route element={<StickyNotesWorkspace/>} path=''/>
-          <Route element={<StickyNotesWorkspace/>} path='notesapp'/>
         </Route>
       </Routes>
     </div>
