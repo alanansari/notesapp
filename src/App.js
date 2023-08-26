@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <Navbar/>
       <Routes>
-        <Route path='/notesapp/tasks' element={ <TasksWorkspace /> } />
+        <Route path='/tasks' element={ <TasksWorkspace /> } />
         <Route path='/'>
           <Route element={<StickyNotesWorkspace/>} path=''/>
         </Route>
