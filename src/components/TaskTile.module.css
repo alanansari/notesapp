@@ -1,5 +1,5 @@
 .tile{
-    width: 73vw;
+    width: 56vw;
     display: flex;
     flex-direction: row;
     background: linear-gradient(90deg, rgba(108,255,87,1) 22%, rgba(235,166,191,1) 78%);
@@ -14,15 +14,15 @@
     box-sizing: border-box;
     overflow-wrap: break-word;
     padding: .5rem;
-    width: 59vw;
+    width: 44vw;
     min-height: 8vh;
-    border-left:.2vw solid #49b13b ;
-    border-right:.2vw solid #c23a6c ;
+    border-left:.2vw solid #5cbe5a ;
+    border-right:.2vw solid #ea82a8 ;
 }
 
 .check,.cross{
     min-height: 8vh;
-    width: 7vw;
+    width: 6vw;
     display: flex;
     justify-content: center;
     align-items: center;
