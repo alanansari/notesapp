@@ -1,1 +1,1 @@
-## See hosted site : [here](https://alanansari.github.io/notesapp/)
+## See hosted site : [here](https://noted.devalan.in)
