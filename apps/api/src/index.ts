@@ -1,5 +1,6 @@
+import Fastify from 'fastify';
 import mongoose from 'mongoose';
-import { buildApp } from './create-app.js';
+import { configureApp, serverOptions } from './create-app.js';
 import { loadEnv } from './env.js';
 
 try {
@@ -8,7 +9,7 @@ try {
 
 const env = loadEnv();
 await mongoose.connect(env.MONGODB_URI);
-const app = await buildApp(env);
+const app = await configureApp(Fastify(serverOptions(env)), env);
 
 for (const signal of ['SIGINT', 'SIGTERM'] as const) {
   process.once(signal, async () => {

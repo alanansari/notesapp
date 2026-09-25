@@ -32,7 +32,10 @@ Vercel doesn't bundle the API. It compiles each TypeScript file separately and r
 
 1. **Relative imports end in `.js`** (`import { x } from './lib/tokens.js'`). `apps/api/tsconfig.json` uses `NodeNext`, so a missing extension fails `pnpm typecheck` instead of failing at runtime.
 2. **`@noted/shared` ships compiled JavaScript.** Its `prepare` script builds `dist/` on every `pnpm install`, including Vercel's filtered install. Node then loads plain JS instead of TypeScript source.
-3. **`src/index.ts` is the only entry-named file.** Vercel treats the first `src/app.*`, `src/index.*` or `src/server.*` it finds as the server. The app factory is named `src/create-app.ts` so it isn't picked by mistake. Don't add files with those names in `src/` or at the `apps/api` root.
+3. **`src/index.ts` is the only entry-named file, and it imports `fastify` itself.** Vercel treats the first `src/app.*`, `src/index.*` or `src/server.*` it finds as the server, and rejects it unless that file imports `fastify` directly.
+   - The routes and plugins live in `src/create-app.ts`, which isn't an entry name.
+   - `src/index.ts` creates the instance with `Fastify(serverOptions(env))` and hands it to `configureApp`.
+   - Don't add files with entry names in `src/` or at the `apps/api` root.
 
 ## Checking a deployment
 
@@ -76,6 +79,7 @@ Then set `NEXT_PUBLIC_API_URL` in the web project (and `VITE_API_URL` for deskto
 | `Cannot find module '/var/task/apps/api/src/...'` | A relative import is missing its `.js` extension (rule 1). |
 | `Cannot find module '@noted/shared'` or `.../dist/index.js` | The shared package didn't build during install. The build log should show `packages/shared prepare: ✔ Build complete`. |
 | `Invalid export found in module ".../src/app.js"` | Vercel picked the wrong entry file (rule 3). |
+| `No entrypoint found which imports fastify` | The entry file must import `fastify` itself (rule 3). |
 | `Invalid environment` … `JWT_SECRET` / `MONGODB_URI` | The variable is missing, too short, or not enabled for this environment. Redeploy after fixing it. |
 | `MongoParseError` / `Password contains unescaped characters` | URL-encode the special characters in the Atlas password. |
 | `querySrv ENOTFOUND` / `bad auth` | The connection string or the database user's credentials are wrong. |

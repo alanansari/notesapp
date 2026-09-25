@@ -1,7 +1,7 @@
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
-import Fastify, { type FastifyError } from 'fastify';
+import Fastify, { type FastifyError, type FastifyInstance, type FastifyServerOptions } from 'fastify';
 import { ZodError } from 'zod';
 import type { Env } from './env.js';
 import { createTokenService } from './lib/tokens.js';
@@ -10,8 +10,8 @@ import { authRoutes } from './routes/auth.js';
 import { meRoutes } from './routes/me.js';
 import { syncRoutes } from './routes/sync.js';
 
-export async function buildApp(env: Env) {
-  const app = Fastify({
+export function serverOptions(env: Env): FastifyServerOptions {
+  return {
     trustProxy: true,
     logger:
       env.NODE_ENV === 'test'
@@ -24,8 +24,10 @@ export async function buildApp(env: Env) {
               },
             }
           : true,
-  });
+  };
+}
 
+export async function configureApp(app: FastifyInstance, env: Env): Promise<FastifyInstance> {
   const tokens = createTokenService(env.JWT_SECRET);
 
   await app.register(helmet);
@@ -53,4 +55,8 @@ export async function buildApp(env: Env) {
   await app.register(syncRoutes);
 
   return app;
+}
+
+export function buildApp(env: Env): Promise<FastifyInstance> {
+  return configureApp(Fastify(serverOptions(env)), env);
 }
