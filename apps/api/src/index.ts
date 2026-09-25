@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { buildApp } from './app.js';
+import { buildApp } from './create-app.js';
 import { loadEnv } from './env.js';
 
 try {

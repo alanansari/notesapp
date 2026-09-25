@@ -178,9 +178,7 @@ Passwords are hashed with Argon2id. Refresh tokens are stored only as SHA-256 ha
 
 - **Web:** any Next.js host (e.g. Vercel). Every page is statically prerendered.
 - **API:** `pnpm --filter @noted/api build` produces a single `dist/index.mjs`. Run it with `node` next to a MongoDB (Atlas or self-hosted).
-- **API on Vercel:** framework preset **Fastify**, root directory `apps/api`, install command `pnpm install --frozen-lockfile --filter @noted/api...`, and keep "Include files outside the root directory" enabled. Set `MONGODB_URI`, `JWT_SECRET`, `CORS_ORIGINS` and `ENABLE_EXPERIMENTAL_COREPACK=1`.
-  - Vercel compiles each file separately and runs it as native Node ESM. That's why API imports use explicit `.js` extensions (enforced by `NodeNext` in `apps/api/tsconfig.json`).
-  - It's also why `@noted/shared` is built to `dist/` by its `prepare` script on every `pnpm install`.
+- **API on Vercel:** see [docs/deploy-api-vercel.md](docs/deploy-api-vercel.md) for settings, environment variables, checks and troubleshooting.
 - **Desktop:** `electron-builder.yml` publishes to GitHub Releases. For distribution, add Apple notarization credentials and a Windows code-signing certificate.
 
 ## Not included yet
