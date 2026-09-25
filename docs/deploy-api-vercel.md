@@ -95,6 +95,7 @@ A healthy start logs `Connecting to MongoDB at <host>`, then `Connected to Mongo
 | `querySrv ENOTFOUND` / `bad auth` | The connection string or the database user's credentials are wrong. |
 | `Could not connect to MongoDB at <host>` followed by `Server failed to start` (after about 10 s) | Atlas isn't reachable from Vercel. In Atlas → Network Access, add `0.0.0.0/0`. Also check the cluster is running and the host in the message is your cluster. |
 | Browser reports a CORS error | Add the web origin, exactly as it appears in the browser, to `CORS_ORIGINS` and redeploy. |
+| Build log shows `Property 'ok' does not exist on type 'Response'`, or similar errors about `ObjectId` | Vercel's type checker doesn't follow pnpm's symlinks, so it can't find packages that only exist inside pnpm's store. The packages that provide these types (`undici-types`, `mongodb`, `bson`) are hoisted via `publicHoistPattern` in `pnpm-workspace.yaml`. If a new dependency's types fail the same way, add it there. |
 
 ## Notes
 

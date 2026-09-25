@@ -1,6 +1,10 @@
 packages:
   - apps/*
   - packages/*
+publicHoistPattern:
+  - undici-types
+  - mongodb
+  - bson
 allowBuilds:
   electron: true
   electron-winstaller: false

@@ -1,4 +1,5 @@
 import { existsSync } from 'node:fs';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { build, context } from 'esbuild';
 
@@ -34,4 +35,4 @@ export async function buildMain({ watch = false } = {}) {
   return contexts;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) await buildMain();
+if (path.resolve(process.argv[1] ?? '') === fileURLToPath(import.meta.url)) await buildMain();
