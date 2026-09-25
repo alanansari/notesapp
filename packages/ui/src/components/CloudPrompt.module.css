@@ -1,0 +1,91 @@
+.banner {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 14px 14px 14px 18px;
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  box-shadow: var(--panel-shadow-sm);
+}
+
+.icon {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:root[data-theme="dark"] .icon {
+  color: var(--brand);
+}
+
+.copy {
+  flex: 1 1 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.copy strong {
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.copy span {
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.primary,
+.secondary {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 19px;
+  border: none;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.primary {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+
+.primary:hover {
+  background: var(--brand-hover);
+}
+
+.secondary {
+  background: transparent;
+}
+
+.secondary:hover,
+.close:hover {
+  background: var(--chip);
+}
+
+.close {
+  width: 34px;
+  height: 34px;
+  border-radius: 17px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+}

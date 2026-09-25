@@ -1,0 +1,4 @@
+{
+  "extends": "@noted/tsconfig/node.json",
+  "include": ["src/main", "src/preload"]
+}

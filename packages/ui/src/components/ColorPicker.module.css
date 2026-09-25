@@ -1,0 +1,16 @@
+.row {
+  display: flex;
+  gap: 6px;
+}
+
+.swatch {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 13px;
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
+}
+
+.swatch[aria-checked="true"] {
+  border: 2.5px solid var(--ink);
+}

@@ -1,0 +1,164 @@
+:root {
+  --font-sans: var(--font-varela, "Varela Round"), ui-rounded, system-ui, sans-serif;
+  --font-mono: ui-monospace, Menlo, monospace;
+  --titlebar-inset: 0px;
+
+  --bg: #f4f6f6;
+  --side: #eefeff;
+  --ink: #1c2427;
+  --muted: #5f6f74;
+  --line: #dce5e7;
+  --surface: #ffffff;
+  --field: #c9f0fb;
+  --composer-bg: #86cffa;
+  --composer-ink: #0b3f5c;
+  --chip-on-composer: rgba(255, 255, 255, 0.55);
+  --send-bg: #c9f0fb;
+  --send-ink: #0b3f5c;
+  --nav-active: #cff3fb;
+  --nav-hover: rgba(0, 0, 0, 0.04);
+  --card-shadow: 0 1px 2px rgba(20, 40, 50, 0.06);
+  --panel-shadow-sm: 0 1px 2px rgba(20, 40, 50, 0.06);
+  --col-bg: #e9eff0;
+  --task-bg: #ffffff;
+  --task-shadow: 0 1px 2px rgba(20, 40, 50, 0.07);
+  --note-ink: #2a2e22;
+  --note-muted: rgba(30, 36, 30, 0.6);
+  --chip: rgba(0, 0, 0, 0.07);
+  --overlay: rgba(8, 22, 28, 0.45);
+  --toast-bg: #17242b;
+  --toast-ink: #f2fbfd;
+
+  --brand: #86cffa;
+  --brand-hover: #74c6f7;
+  --brand-ink: #0b3f5c;
+  --brand-soft: #c9f0fb;
+  --accent: #56b8ea;
+  --success: #3fae74;
+  --warning: #e0a73a;
+  --danger: #d9534f;
+  --danger-ink: #b3261e;
+
+  --note-yellow: #ede9a6;
+  --note-cyan: #c5ecf6;
+  --note-green: #d6eac3;
+  --note-pink: #f5d4db;
+  --note-lavender: #ddd9f3;
+  --note-peach: #f5dcc0;
+
+  --radius-nav: 14px;
+  --radius-card: 18px;
+  --radius-panel: 22px;
+  --radius-field: 14px;
+  --radius-col: 20px;
+  --radius-task: 12px;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0f1618;
+  --side: #142024;
+  --ink: #e3eef0;
+  --muted: #8ea2a7;
+  --line: #233339;
+  --surface: #172429;
+  --field: #14303a;
+  --composer-bg: #1c3b47;
+  --composer-ink: #cfeffa;
+  --chip-on-composer: rgba(255, 255, 255, 0.1);
+  --send-bg: #5fb9ec;
+  --send-ink: #062435;
+  --nav-active: #1d3a44;
+  --nav-hover: rgba(255, 255, 255, 0.05);
+  --card-shadow: none;
+  --panel-shadow-sm: none;
+  --col-bg: #141f23;
+  --task-bg: #1a292e;
+  --task-shadow: none;
+  --note-ink: #edefe4;
+  --note-muted: rgba(237, 239, 228, 0.62);
+  --chip: rgba(255, 255, 255, 0.1);
+  --brand-soft: #1d3a44;
+
+  --note-yellow: #4a4726;
+  --note-cyan: #1e4550;
+  --note-green: #304629;
+  --note-pink: #4e2e37;
+  --note-lavender: #363253;
+  --note-peach: #4c3926;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  transition:
+    background 0.25s,
+    color 0.25s;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.noted-drag-strip {
+  position: fixed;
+  inset: 0 0 auto;
+  height: var(--titlebar-inset);
+  z-index: 100;
+  -webkit-app-region: drag;
+  app-region: drag;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over component transitions */
+    transition: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over component transitions */
+    animation: none !important;
+  }
+}

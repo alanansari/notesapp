@@ -1,0 +1,72 @@
+.composer {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--composer-bg);
+  border-radius: var(--radius-panel);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inputRow {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.textarea {
+  flex: 1;
+  min-width: 0;
+  resize: none;
+  border: none;
+  background: var(--field);
+  color: var(--ink);
+  border-radius: var(--radius-field);
+  padding: 14px 16px;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.textarea::placeholder {
+  color: #4d7c92;
+}
+
+:root[data-theme="dark"] .textarea::placeholder {
+  color: #7fa8b8;
+}
+
+.send {
+  width: 56px;
+  flex: 0 0 56px;
+  border-radius: var(--radius-field);
+  border: none;
+  background: var(--send-bg);
+  color: var(--send-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.send:disabled {
+  opacity: 0.55;
+}
+
+.send:not(:disabled):hover {
+  filter: brightness(1.05);
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 0 4px;
+  color: var(--composer-ink);
+}
+
+.hint {
+  font-size: 12px;
+  opacity: 0.75;
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@noted/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --clear-screen=false src/index.ts",
+    "build": "tsdown",
+    "start": "node dist/index.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.3.0",
+    "@fastify/helmet": "^13.1.1",
+    "@fastify/rate-limit": "^11.2.0",
+    "@node-rs/argon2": "^2.2.1",
+    "fastify": "^5.12.5",
+    "fastify-plugin": "^6.0.0",
+    "jose": "^6.2.12",
+    "mongoose": "^9.10.2",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@noted/shared": "workspace:*",
+    "@noted/tsconfig": "workspace:*",
+    "@types/node": "^26.6.2",
+    "mongodb-memory-server": "^11.3.0",
+    "pino-pretty": "^13.1.3",
+    "tsdown": "^0.23.0",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.2"
+  }
+}

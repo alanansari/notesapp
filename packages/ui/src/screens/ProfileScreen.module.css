@@ -1,0 +1,387 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.header,
+.main {
+  max-width: 880px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: calc(22px + var(--titlebar-inset));
+  padding-bottom: 22px;
+}
+
+.logo {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 26px;
+  letter-spacing: -0.5px;
+}
+
+.flex {
+  flex: 1;
+}
+
+.back {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 20px;
+  border: none;
+  background: var(--surface);
+  font-size: 15px;
+}
+
+.main {
+  padding-top: 12px;
+  padding-bottom: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.muted {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 8px 0 16px;
+}
+
+.identityText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.identityText h1,
+.guest h1 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 32px;
+  letter-spacing: -0.5px;
+}
+
+.swatches {
+  display: flex;
+  gap: 6px;
+}
+
+.swatches button {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 13px;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+}
+
+.swatches button[aria-checked="true"] {
+  border: 2.5px solid var(--ink);
+}
+
+.guest {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 8px 0 12px;
+}
+
+.guest p {
+  margin: 0;
+  max-width: 560px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-panel);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.card h2 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 21px;
+}
+
+.card a {
+  font-size: 14px;
+  color: #0b5e86;
+}
+
+:root[data-theme="dark"] .card a {
+  color: var(--brand);
+}
+
+.card p {
+  margin: 0;
+}
+
+.cardHead,
+.cardFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field > span:first-child {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.field input,
+.bare {
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  font-size: 16px;
+}
+
+.field input:focus,
+.bare:focus {
+  border-color: var(--accent);
+}
+
+.field input[data-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.error,
+.errorFlex {
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.errorFlex {
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.primary,
+.secondary,
+.ghost,
+.outline,
+.danger {
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 22px;
+  border: none;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.primary {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+
+.primary:disabled {
+  background: var(--chip);
+  color: var(--muted);
+}
+
+.secondary {
+  background: var(--chip);
+}
+
+.secondary:disabled {
+  opacity: 0.5;
+}
+
+.ghost {
+  background: transparent;
+}
+
+.outline {
+  height: 38px;
+  padding: 0 16px;
+  font-size: 14px;
+  border: 1px solid var(--line);
+  background: transparent;
+}
+
+.danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.danger:disabled {
+  background: #e7b3b1;
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 6px 0;
+}
+
+.setting + .setting {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+.settingText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.segmented {
+  display: flex;
+  padding: 3px;
+  border-radius: 18px;
+  background: var(--chip);
+}
+
+.segmented button {
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 15px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+.segmented button[aria-checked="true"] {
+  background: var(--surface);
+}
+
+:root[data-theme="dark"] .segmented button[aria-checked="true"] {
+  background: #24363c;
+}
+
+.device {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.deviceIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: #0b3f5c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.deviceText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 160px;
+}
+
+.badge {
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 14px;
+  background: var(--brand-soft);
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.dangerRow {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px;
+}
+
+.surfaceButton,
+.dangerButton {
+  height: 46px;
+  padding: 0 22px;
+  border-radius: 23px;
+  border: none;
+  font-size: 15px;
+}
+
+.surfaceButton {
+  background: var(--surface);
+}
+
+.dangerButton {
+  background: transparent;
+  color: var(--danger);
+}
+
+.dialog {
+  max-width: 420px;
+  background: var(--surface);
+  border-radius: var(--radius-panel);
+  padding: 26px;
+  gap: 14px;
+}
+
+.dialog h3 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 22px;
+}
+
+.dialog p {
+  margin: 0;
+}

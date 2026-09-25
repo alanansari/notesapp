@@ -1,0 +1,259 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  background: var(--bg);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: calc(32px + var(--titlebar-inset)) 44px 110px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.title {
+  margin: 0;
+  font-weight: 400;
+  font-size: 28px;
+  letter-spacing: -0.3px;
+}
+
+.count {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.flex {
+  flex: 1;
+}
+
+.mobileLogo {
+  font-size: 26px;
+  letter-spacing: -0.5px;
+}
+
+.pillButton {
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 22px;
+  border: none;
+  background: var(--surface);
+  font-size: 14px;
+}
+
+.avatarButton {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 22px;
+  border: 1.5px dashed var(--muted);
+  background: transparent;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.avatarButton:has(span) {
+  border: none;
+}
+
+.search {
+  position: relative;
+  flex: 0 1 340px;
+  min-width: 0;
+}
+
+.search input {
+  width: 100%;
+  height: 44px;
+  padding: 0 44px 0 16px;
+  border-radius: 22px;
+  border: none;
+  background: var(--surface);
+  box-shadow: var(--panel-shadow-sm);
+  font-size: 15px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search input::placeholder {
+  color: var(--muted);
+}
+
+.clear {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  border: none;
+  background: var(--chip);
+  font-size: 15px;
+}
+
+.slash {
+  position: absolute;
+  right: 12px;
+  top: 11px;
+  font-family: inherit;
+  font-size: 12px;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.notes {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.chip {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 17px;
+  border: 1.5px solid transparent;
+  background: var(--surface);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chip span {
+  opacity: 0.6;
+  font-size: 12px;
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.modeRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -8px;
+}
+
+.modes {
+  display: flex;
+  padding: 3px;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--panel-shadow-sm);
+}
+
+.modes button {
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 15px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+.modes button[aria-checked="true"] {
+  background: var(--nav-active);
+}
+
+.empty {
+  max-width: 420px;
+  margin: 48px auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.emptyTitle {
+  font-size: 22px;
+}
+
+.emptyText {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.emptyText kbd {
+  font-family: inherit;
+  padding: 1px 7px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.clearFilters {
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 22px;
+  border: none;
+  background: var(--surface);
+  font-size: 15px;
+}
+
+.fab {
+  position: fixed;
+  right: 18px;
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  z-index: 31;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  border: none;
+  background: var(--send-bg);
+  color: var(--send-ink);
+  font-size: 28px;
+  box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 759px) {
+  .main {
+    padding: 16px 16px 150px;
+  }
+
+  .search {
+    flex: 1 1 100%;
+  }
+
+  .chips {
+    justify-content: flex-start;
+  }
+}

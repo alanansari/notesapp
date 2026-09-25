@@ -1,0 +1,36 @@
+{
+  "name": "@noted/desktop",
+  "productName": "Noted",
+  "version": "1.0.0",
+  "description": "Noted. Sticky notes and tasks that work offline and sync everywhere.",
+  "author": "Alan Ansari",
+  "private": true,
+  "type": "module",
+  "main": "dist/main/index.cjs",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "vite build && node scripts/build-main.mjs",
+    "dist": "pnpm build && electron-builder",
+    "dist:mac": "pnpm build && electron-builder --mac",
+    "dist:win": "pnpm build && electron-builder --win",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.main.json"
+  },
+  "devDependencies": {
+    "@fontsource/varela-round": "^5.3.0",
+    "@noted/core": "workspace:*",
+    "@noted/shared": "workspace:*",
+    "@noted/tsconfig": "workspace:*",
+    "@noted/ui": "workspace:*",
+    "@types/node": "^26.6.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.28.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.1"
+  }
+}

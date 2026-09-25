@@ -1,0 +1,40 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 160px;
+  color: var(--note-ink);
+}
+
+.row[data-tone="composer"] {
+  color: var(--composer-ink);
+}
+
+.tag {
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 14px;
+  border: none;
+  background: var(--chip);
+  font-size: 13px;
+}
+
+.row[data-tone="composer"] .tag {
+  background: var(--chip-on-composer);
+}
+
+.input {
+  height: 28px;
+  min-width: 90px;
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+.input::placeholder {
+  color: inherit;
+  opacity: 0.6;
+}

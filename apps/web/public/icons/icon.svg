@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>Noted</title>
+  <rect width="512" height="512" rx="112" fill="#86CFFA"/>
+  <g transform="rotate(-6 256 256)">
+    <path d="M136 120h240a16 16 0 0 1 16 16v176l-80 80H136a16 16 0 0 1-16-16V136a16 16 0 0 1 16-16z" fill="#EDE9A6"/>
+    <path d="M312 392v-64a16 16 0 0 1 16-16h64z" fill="#D6D18A"/>
+    <rect x="164" y="176" width="184" height="22" rx="11" fill="#1C2427" opacity=".82"/>
+    <rect x="164" y="226" width="144" height="18" rx="9" fill="#1C2427" opacity=".45"/>
+    <rect x="164" y="268" width="112" height="18" rx="9" fill="#1C2427" opacity=".45"/>
+  </g>
+</svg>

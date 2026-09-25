@@ -1,0 +1,28 @@
+{
+  "name": "@noted/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build-sw.mjs && next dev --port 3000",
+    "build": "node scripts/build-sw.mjs --minify && next build",
+    "start": "next start --port 3000",
+    "typecheck": "next typegen && tsc -p tsconfig.json && tsc -p src/sw/tsconfig.json"
+  },
+  "dependencies": {
+    "@noted/core": "workspace:*",
+    "@noted/shared": "workspace:*",
+    "@noted/ui": "workspace:*",
+    "next": "^16.3.6",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@noted/tsconfig": "workspace:*",
+    "@types/node": "^26.6.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^6.0.3"
+  }
+}

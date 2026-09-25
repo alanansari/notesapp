@@ -1,0 +1,4 @@
+{
+  "extends": "@noted/tsconfig/react.json",
+  "include": ["src"]
+}

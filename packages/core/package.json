@@ -1,0 +1,25 @@
+{
+  "name": "@noted/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./background": "./src/background.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@noted/shared": "workspace:*",
+    "dexie": "^4.4.6",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@noted/tsconfig": "workspace:*",
+    "fake-indexeddb": "^6.2.5",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.2"
+  }
+}
