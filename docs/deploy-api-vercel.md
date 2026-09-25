@@ -80,10 +80,10 @@ Then set `NEXT_PUBLIC_API_URL` in the web project (and `VITE_API_URL` for deskto
 | `Cannot find module '@noted/shared'` or `.../dist/index.js` | The shared package didn't build during install. The build log should show `packages/shared prepare: ✔ Build complete`. |
 | `Invalid export found in module ".../src/app.js"` | Vercel picked the wrong entry file (rule 3). |
 | `No entrypoint found which imports fastify` | The entry file must import `fastify` itself (rule 3). |
-| `Invalid environment` … `JWT_SECRET` / `MONGODB_URI` | The variable is missing, too short, or not enabled for this environment. Redeploy after fixing it. |
+| `Invalid environment` … `JWT_SECRET`, `MONGODB_URI` or `CORS_ORIGINS` | The variable is missing, too short, or not enabled for this environment. `MONGODB_URI` and `CORS_ORIGINS` are required in production. Redeploy after fixing it. |
 | `MongoParseError` / `Password contains unescaped characters` | URL-encode the special characters in the Atlas password. |
 | `querySrv ENOTFOUND` / `bad auth` | The connection string or the database user's credentials are wrong. |
-| Requests time out after ~30 s | Atlas network access doesn't allow Vercel. Add `0.0.0.0/0`. |
+| `Could not connect to MongoDB at <host>` / `MongooseServerSelectionError` (after about 10 s) | Atlas isn't reachable from Vercel. In Atlas → Network Access, add `0.0.0.0/0`. Also check the cluster is running and the host in the message is your cluster. |
 | Browser reports a CORS error | Add the web origin, exactly as it appears in the browser, to `CORS_ORIGINS` and redeploy. |
 
 ## Notes

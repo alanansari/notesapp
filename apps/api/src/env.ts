@@ -19,10 +19,17 @@ const envSchema = z.object({
 
 export type Env = z.infer<typeof envSchema>;
 
+const REQUIRED_IN_PRODUCTION = ['MONGODB_URI', 'CORS_ORIGINS'] as const;
+
 export function loadEnv(source: NodeJS.ProcessEnv = process.env): Env {
   const parsed = envSchema.safeParse(source);
   if (!parsed.success) {
     throw new Error(`Invalid environment:\n${z.prettifyError(parsed.error)}`);
+  }
+  if (parsed.data.NODE_ENV === 'production') {
+    const missing = REQUIRED_IN_PRODUCTION.filter((key) => !source[key]);
+    if (missing.length)
+      throw new Error(`Invalid environment: ${missing.join(', ')} must be set in production`);
   }
   return parsed.data;
 }

@@ -8,7 +8,13 @@ try {
 } catch {}
 
 const env = loadEnv();
-await mongoose.connect(env.MONGODB_URI);
+try {
+  await mongoose.connect(env.MONGODB_URI, { serverSelectionTimeoutMS: 10_000 });
+} catch (error) {
+  const host = env.MONGODB_URI.replace(/^mongodb(\+srv)?:\/\/([^@/]*@)?/, '').split(/[/?]/)[0];
+  console.error(`Could not connect to MongoDB at ${host}.`, error);
+  throw error;
+}
 const app = await configureApp(Fastify(serverOptions(env)), env);
 
 for (const signal of ['SIGINT', 'SIGTERM'] as const) {
