@@ -1,28 +1,27 @@
 import Fastify from 'fastify';
-import mongoose from 'mongoose';
-import { configureApp, serverOptions } from './create-app.js';
+import { appPlugin, serverOptions } from './create-app.js';
 import { loadEnv } from './env.js';
+import { databasePlugin } from './plugins/database.js';
 
 try {
   process.loadEnvFile();
 } catch {}
 
 const env = loadEnv();
-try {
-  await mongoose.connect(env.MONGODB_URI, { serverSelectionTimeoutMS: 10_000 });
-} catch (error) {
-  const host = env.MONGODB_URI.replace(/^mongodb(\+srv)?:\/\/([^@/]*@)?/, '').split(/[/?]/)[0];
-  console.error(`Could not connect to MongoDB at ${host}.`, error);
-  throw error;
-}
-const app = await configureApp(Fastify(serverOptions(env)), env);
+const app = Fastify(serverOptions(env));
+
+app.register(databasePlugin, { uri: env.MONGODB_URI });
+app.register(appPlugin, { env });
 
 for (const signal of ['SIGINT', 'SIGTERM'] as const) {
-  process.once(signal, async () => {
-    await app.close();
-    await mongoose.disconnect();
-    process.exit(0);
+  process.once(signal, () => {
+    app.close().finally(() => process.exit(0));
   });
 }
 
-await app.listen({ host: env.HOST, port: env.PORT });
+app.listen({ host: env.HOST, port: env.PORT }, (error) => {
+  if (error) {
+    app.log.error(error, 'Server failed to start');
+    process.exit(1);
+  }
+});

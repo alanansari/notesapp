@@ -28,13 +28,14 @@ Enable each variable for **Production** (and Preview if you use it), then redepl
 
 ## Code rules this setup depends on
 
-Vercel doesn't bundle the API. It compiles each TypeScript file separately and runs the result as native Node ESM. The codebase follows three rules because of this:
+Vercel doesn't bundle the API. It compiles each TypeScript file separately and runs the result as native Node ESM. The codebase follows four rules because of this:
 
 1. **Relative imports end in `.js`** (`import { x } from './lib/tokens.js'`). `apps/api/tsconfig.json` uses `NodeNext`, so a missing extension fails `pnpm typecheck` instead of failing at runtime.
 2. **`@noted/shared` ships compiled JavaScript.** Its `prepare` script builds `dist/` on every `pnpm install`, including Vercel's filtered install. Node then loads plain JS instead of TypeScript source.
 3. **`src/index.ts` is the only entry-named file, and it imports `fastify` itself.** Vercel treats the first `src/app.*`, `src/index.*` or `src/server.*` it finds as the server, and rejects it unless that file imports `fastify` directly.
    - The routes and plugins live in `src/create-app.ts`, which isn't an entry name.
-   - `src/index.ts` creates the instance with `Fastify(serverOptions(env))` and hands it to `configureApp`.
+   - `src/index.ts` creates the instance with `Fastify(serverOptions(env))` and registers `databasePlugin` and `appPlugin` on it.
+4. **No top-level `await` in `src/index.ts`, and `listen()` isn't awaited.** Vercel waits for the entry module to finish loading, so awaiting at the top level can hang the function. The MongoDB connection is a Fastify plugin (`src/plugins/database.ts`), so Fastify opens it before serving; startup errors go to the `listen()` callback.
    - Don't add files with entry names in `src/` or at the `apps/api` root.
 
 ## Checking a deployment
@@ -74,6 +75,8 @@ Then set `NEXT_PUBLIC_API_URL` in the web project (and `VITE_API_URL` for deskto
 
 `FUNCTION_INVOCATION_FAILED` means the function crashed. The error itself is in the project's **Logs**: open the failed request and read the lines before `Node.js process exited`. You can also run `npx vercel logs <api-domain>`.
 
+A healthy start logs `Connecting to MongoDB at <host>`, then `Connected to MongoDB`, then `Server listening at …`. The last of these that appears shows how far startup got.
+
 | Log message | Fix |
 | --- | --- |
 | `Cannot find module '/var/task/apps/api/src/...'` | A relative import is missing its `.js` extension (rule 1). |
@@ -83,7 +86,7 @@ Then set `NEXT_PUBLIC_API_URL` in the web project (and `VITE_API_URL` for deskto
 | `Invalid environment` … `JWT_SECRET`, `MONGODB_URI` or `CORS_ORIGINS` | The variable is missing, too short, or not enabled for this environment. `MONGODB_URI` and `CORS_ORIGINS` are required in production. Redeploy after fixing it. |
 | `MongoParseError` / `Password contains unescaped characters` | URL-encode the special characters in the Atlas password. |
 | `querySrv ENOTFOUND` / `bad auth` | The connection string or the database user's credentials are wrong. |
-| `Could not connect to MongoDB at <host>` / `MongooseServerSelectionError` (after about 10 s) | Atlas isn't reachable from Vercel. In Atlas → Network Access, add `0.0.0.0/0`. Also check the cluster is running and the host in the message is your cluster. |
+| `Could not connect to MongoDB at <host>` followed by `Server failed to start` (after about 10 s) | Atlas isn't reachable from Vercel. In Atlas → Network Access, add `0.0.0.0/0`. Also check the cluster is running and the host in the message is your cluster. |
 | Browser reports a CORS error | Add the web origin, exactly as it appears in the browser, to `CORS_ORIGINS` and redeploy. |
 
 ## Notes

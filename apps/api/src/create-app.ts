@@ -2,6 +2,7 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
 import Fastify, { type FastifyError, type FastifyInstance, type FastifyServerOptions } from 'fastify';
+import fp from 'fastify-plugin';
 import { ZodError } from 'zod';
 import type { Env } from './env.js';
 import { createTokenService } from './lib/tokens.js';
@@ -13,6 +14,7 @@ import { syncRoutes } from './routes/sync.js';
 export function serverOptions(env: Env): FastifyServerOptions {
   return {
     trustProxy: true,
+    pluginTimeout: 20_000,
     logger:
       env.NODE_ENV === 'test'
         ? false
@@ -27,7 +29,7 @@ export function serverOptions(env: Env): FastifyServerOptions {
   };
 }
 
-export async function configureApp(app: FastifyInstance, env: Env): Promise<FastifyInstance> {
+export const appPlugin = fp<{ env: Env }>(async (app: FastifyInstance, { env }) => {
   const tokens = createTokenService(env.JWT_SECRET);
 
   await app.register(helmet);
@@ -53,10 +55,10 @@ export async function configureApp(app: FastifyInstance, env: Env): Promise<Fast
   await app.register(authRoutes, { tokens });
   await app.register(meRoutes);
   await app.register(syncRoutes);
+});
 
+export async function buildApp(env: Env): Promise<FastifyInstance> {
+  const app = Fastify(serverOptions(env));
+  await app.register(appPlugin, { env });
   return app;
-}
-
-export function buildApp(env: Env): Promise<FastifyInstance> {
-  return configureApp(Fastify(serverOptions(env)), env);
 }
