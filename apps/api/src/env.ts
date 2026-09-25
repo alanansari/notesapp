@@ -15,11 +15,13 @@ const envSchema = z.object({
         .map((origin) => origin.trim())
         .filter(Boolean),
     ),
+  RESEND_API_KEY: z.string().min(1).optional(),
+  EMAIL_FROM: z.string().min(1).default('Noted <onboarding@resend.dev>'),
 });
 
 export type Env = z.infer<typeof envSchema>;
 
-const REQUIRED_IN_PRODUCTION = ['MONGODB_URI', 'CORS_ORIGINS'] as const;
+const REQUIRED_IN_PRODUCTION = ['MONGODB_URI', 'CORS_ORIGINS', 'RESEND_API_KEY', 'EMAIL_FROM'] as const;
 
 export function loadEnv(source: NodeJS.ProcessEnv = process.env): Env {
   const parsed = envSchema.safeParse(source);

@@ -198,6 +198,45 @@
   color: #6a1e2c;
 }
 
+.success {
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  background: #d6eac3;
+  color: #24401a;
+}
+
+.ink {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.code {
+  font-size: 22px;
+  letter-spacing: 8px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.inlineLink {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: inherit;
+  color: #0b5e86;
+  text-decoration: underline;
+}
+
+.inlineLink:disabled {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+:root[data-theme="dark"] .inlineLink:not(:disabled) {
+  color: var(--brand);
+}
+
 .submit {
   height: 54px;
   margin-top: 4px;

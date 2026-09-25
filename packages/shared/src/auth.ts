@@ -15,6 +15,22 @@ export const signupSchema = z.object({
   platform: z.enum(CLIENT_PLATFORMS),
 });
 
+export const verifySignupSchema = z.object({
+  email,
+  code: z
+    .string()
+    .trim()
+    .regex(/^\d{6}$/, 'Enter the 6-digit code from your email.'),
+  platform: z.enum(CLIENT_PLATFORMS),
+});
+
+export const resendSignupCodeSchema = z.object({ email });
+
+export const pendingSignupSchema = z.object({
+  email: z.string(),
+  resendAfter: z.number(),
+});
+
 export const loginSchema = z.object({
   email,
   password: z.string().min(1).max(128),
@@ -63,6 +79,9 @@ export const deviceSessionSchema = z.object({
 });
 
 export type SignupInput = z.infer<typeof signupSchema>;
+export type VerifySignupInput = z.infer<typeof verifySignupSchema>;
+export type ResendSignupCodeInput = z.infer<typeof resendSignupCodeSchema>;
+export type PendingSignup = z.infer<typeof pendingSignupSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type User = z.infer<typeof userSchema>;
 export type AuthResponse = z.infer<typeof authResponseSchema>;

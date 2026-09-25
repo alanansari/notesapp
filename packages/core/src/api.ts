@@ -5,6 +5,9 @@ import {
   type DeviceSession,
   deviceSessionSchema,
   type LoginInput,
+  type PendingSignup,
+  pendingSignupSchema,
+  type ResendSignupCodeInput,
   type SignupInput,
   type SyncRequest,
   type SyncResponse,
@@ -13,6 +16,7 @@ import {
   type UpdateProfileInput,
   type User,
   userSchema,
+  type VerifySignupInput,
 } from '@noted/shared';
 import * as z from 'zod';
 import { withLock } from './lock';
@@ -99,8 +103,22 @@ export function createApiClient(baseUrl: string, sessions: SessionStore) {
   }
 
   return {
-    signup: (input: SignupInput): Promise<AuthResponse> =>
-      request('/auth/signup', { method: 'POST', body: input, auth: false, schema: authResponseSchema }),
+    signup: (input: SignupInput): Promise<PendingSignup> =>
+      request('/auth/signup', { method: 'POST', body: input, auth: false, schema: pendingSignupSchema }),
+    verifySignup: (input: VerifySignupInput): Promise<AuthResponse> =>
+      request('/auth/signup/verify', {
+        method: 'POST',
+        body: input,
+        auth: false,
+        schema: authResponseSchema,
+      }),
+    resendSignupCode: (input: ResendSignupCodeInput): Promise<PendingSignup> =>
+      request('/auth/signup/resend', {
+        method: 'POST',
+        body: input,
+        auth: false,
+        schema: pendingSignupSchema,
+      }),
     login: (input: LoginInput): Promise<AuthResponse> =>
       request('/auth/login', { method: 'POST', body: input, auth: false, schema: authResponseSchema }),
     logout: (): Promise<void> => request('/auth/logout', { method: 'POST' }),

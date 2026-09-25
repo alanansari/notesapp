@@ -5,6 +5,7 @@ import type {
   SignupInput,
   UpdateProfileInput,
   User,
+  VerifySignupInput,
 } from '@noted/shared';
 import { createApiClient } from './api';
 import { NotedDB } from './db';
@@ -69,8 +70,10 @@ export function createNotedClient({ apiUrl, platform, onSyncDeferred, dbName }: 
     stop: () => sync.stop(),
     auth: {
       getSession: () => sessions.get(),
-      signup: async (input: Omit<SignupInput, 'platform'>) =>
-        startSession(await api.signup({ ...input, platform })),
+      signup: (input: Omit<SignupInput, 'platform'>) => api.signup({ ...input, platform }),
+      verifySignup: async (input: Omit<VerifySignupInput, 'platform'>) =>
+        startSession(await api.verifySignup({ ...input, platform })),
+      resendSignupCode: (email: string) => api.resendSignupCode({ email }),
       login: async (input: Omit<LoginInput, 'platform'>) =>
         startSession(await api.login({ ...input, platform })),
       async logout() {

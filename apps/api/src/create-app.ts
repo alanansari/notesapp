@@ -5,6 +5,8 @@ import Fastify, { type FastifyError, type FastifyInstance, type FastifyServerOpt
 import fp from 'fastify-plugin';
 import { ZodError } from 'zod';
 import type { Env } from './env.js';
+import { HttpError } from './lib/http-error.js';
+import { createMailer, type Mailer } from './lib/mailer.js';
 import { createTokenService } from './lib/tokens.js';
 import { authPlugin } from './plugins/auth.js';
 import { authRoutes } from './routes/auth.js';
@@ -29,8 +31,14 @@ export function serverOptions(env: Env): FastifyServerOptions {
   };
 }
 
-export const appPlugin = fp<{ env: Env }>(async (app: FastifyInstance, { env }) => {
+export interface AppOptions {
+  env: Env;
+  mailer?: Mailer;
+}
+
+export const appPlugin = fp<AppOptions>(async (app: FastifyInstance, { env, mailer }) => {
   const tokens = createTokenService(env.JWT_SECRET);
+  mailer ??= createMailer(env, app.log);
 
   await app.register(helmet);
   await app.register(cors, {
@@ -48,17 +56,18 @@ export const appPlugin = fp<{ env: Env }>(async (app: FastifyInstance, { env }) 
     }
     const status = error.statusCode ?? 500;
     if (status >= 500) request.log.error(error);
-    return reply.code(status).send({ message: status >= 500 ? 'Something went wrong.' : error.message });
+    const expose = status < 500 || error instanceof HttpError;
+    return reply.code(status).send({ message: expose ? error.message : 'Something went wrong.' });
   });
 
   app.get('/health', async () => ({ ok: true }));
-  await app.register(authRoutes, { tokens });
+  await app.register(authRoutes, { tokens, mailer });
   await app.register(meRoutes);
   await app.register(syncRoutes);
 });
 
-export async function buildApp(env: Env): Promise<FastifyInstance> {
+export async function buildApp(env: Env, options: Omit<AppOptions, 'env'> = {}): Promise<FastifyInstance> {
   const app = Fastify(serverOptions(env));
-  await app.register(appPlugin, { env });
+  await app.register(appPlugin, { env, ...options });
   return app;
 }

@@ -24,6 +24,8 @@ Enable each variable for **Production** (and Preview if you use it), then redepl
 | `MONGODB_URI` | MongoDB Atlas connection string. In Atlas → Network Access, allow `0.0.0.0/0`, because Vercel has no fixed IPs. URL-encode special characters in the password. |
 | `JWT_SECRET` | A random string of at least 32 characters, e.g. `openssl rand -hex 32` |
 | `CORS_ORIGINS` | `https://<web-domain>,app://noted` (the web app's origin, with no trailing slash, plus the desktop app) |
+| `RESEND_API_KEY` | API key from [Resend](https://resend.com), used to email sign-up verification codes. |
+| `EMAIL_FROM` | Sender for those emails, e.g. `Noted <no-reply@your-domain.com>`. The domain must be verified in Resend. |
 | `ENABLE_EXPERIMENTAL_COREPACK` | `1`. Makes Vercel use the pnpm version pinned in the root `package.json`, which matches the lockfile. |
 
 ## Code rules this setup depends on
@@ -48,7 +50,11 @@ curl -i $API/health
 
 curl -i -X POST $API/auth/signup -H 'content-type: application/json' \
   -d '{"name":"Test","email":"test+1@example.com","password":"Sup3r-secret!","platform":"web"}'
-# 201 with user, accessToken, refreshToken (409 if run twice)
+# 202 {"email":…,"resendAfter":…}, and a 6-digit code is emailed (409 if the account already exists)
+
+curl -i -X POST $API/auth/signup/verify -H 'content-type: application/json' \
+  -d '{"email":"test+1@example.com","code":"<code from the email>","platform":"web"}'
+# 201 with user, accessToken, refreshToken
 
 TOKEN=$(curl -s -X POST $API/auth/login -H 'content-type: application/json' \
   -d '{"email":"test+1@example.com","password":"Sup3r-secret!","platform":"web"}' \
@@ -83,7 +89,8 @@ A healthy start logs `Connecting to MongoDB at <host>`, then `Connected to Mongo
 | `Cannot find module '@noted/shared'` or `.../dist/index.js` | The shared package didn't build during install. The build log should show `packages/shared prepare: ✔ Build complete`. |
 | `Invalid export found in module ".../src/app.js"` | Vercel picked the wrong entry file (rule 3). |
 | `No entrypoint found which imports fastify` | The entry file must import `fastify` itself (rule 3). |
-| `Invalid environment` … `JWT_SECRET`, `MONGODB_URI` or `CORS_ORIGINS` | The variable is missing, too short, or not enabled for this environment. `MONGODB_URI` and `CORS_ORIGINS` are required in production. Redeploy after fixing it. |
+| `Invalid environment` … `JWT_SECRET`, `MONGODB_URI`, `CORS_ORIGINS`, `RESEND_API_KEY` or `EMAIL_FROM` | The variable is missing, too short, or not enabled for this environment. All of them are required in production. Redeploy after fixing it. |
+| `Email provider rejected a message` | Check the logged Resend error. Usually the `EMAIL_FROM` domain isn't verified in Resend or the API key is wrong. |
 | `MongoParseError` / `Password contains unescaped characters` | URL-encode the special characters in the Atlas password. |
 | `querySrv ENOTFOUND` / `bad auth` | The connection string or the database user's credentials are wrong. |
 | `Could not connect to MongoDB at <host>` followed by `Server failed to start` (after about 10 s) | Atlas isn't reachable from Vercel. In Atlas → Network Access, add `0.0.0.0/0`. Also check the cluster is running and the host in the message is your cluster. |

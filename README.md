@@ -179,7 +179,7 @@ Passwords are hashed with Argon2id. Refresh tokens are stored only as SHA-256 ha
 - **Web:** any Next.js host (e.g. Vercel). Every page is statically prerendered.
 - **API:** `pnpm --filter @noted/api build` produces a single `dist/index.mjs`. Run it with `node` next to a MongoDB (Atlas or self-hosted).
 - **API on Vercel:** see [docs/deploy-api-vercel.md](docs/deploy-api-vercel.md) for settings, environment variables, checks and troubleshooting.
-- **Desktop:** `electron-builder.yml` publishes to GitHub Releases. For distribution, add Apple notarization credentials and a Windows code-signing certificate.
+- **Desktop:** see [docs/release-desktop.md](docs/release-desktop.md). Pushing a `v*` tag builds the macOS and Windows installers in GitHub Actions and attaches them to a draft GitHub Release.
 
 ## Not included yet
 
