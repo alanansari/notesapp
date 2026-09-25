@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { buildApp } from './app';
-import { loadEnv } from './env';
+import { buildApp } from './app.js';
+import { loadEnv } from './env.js';
 
 try {
   process.loadEnvFile();

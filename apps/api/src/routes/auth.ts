@@ -1,12 +1,17 @@
 import { loginSchema, refreshSchema, signupSchema } from '@noted/shared';
 import type { FastifyInstance } from 'fastify';
-import { HttpError } from '../lib/http-error';
-import { hashPassword, verifyPassword } from '../lib/password';
-import { issueSession } from '../lib/sessions';
-import { createRefreshToken, hashRefreshToken, REFRESH_TOKEN_TTL_MS, type TokenService } from '../lib/tokens';
-import { Session } from '../models/session';
-import { toUserDTO, User } from '../models/user';
-import { requireAuth } from '../plugins/auth';
+import { HttpError } from '../lib/http-error.js';
+import { hashPassword, verifyPassword } from '../lib/password.js';
+import { issueSession } from '../lib/sessions.js';
+import {
+  createRefreshToken,
+  hashRefreshToken,
+  REFRESH_TOKEN_TTL_MS,
+  type TokenService,
+} from '../lib/tokens.js';
+import { Session } from '../models/session.js';
+import { toUserDTO, User } from '../models/user.js';
+import { requireAuth } from '../plugins/auth.js';
 
 const authRateLimit = { rateLimit: { max: 10, timeWindow: '1 minute' } };
 

@@ -3,8 +3,8 @@ import type { FastifyInstance } from 'fastify';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { buildApp } from '../src/app';
-import { loadEnv } from '../src/env';
+import { buildApp } from '../src/app.js';
+import { loadEnv } from '../src/env.js';
 
 let mongo: MongoMemoryServer;
 let app: FastifyInstance;

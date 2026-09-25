@@ -1,13 +1,13 @@
 import { changePasswordSchema, type DeviceSession, updateProfileSchema } from '@noted/shared';
 import type { FastifyInstance } from 'fastify';
 import { Types } from 'mongoose';
-import { HttpError } from '../lib/http-error';
-import { hashPassword, verifyPassword } from '../lib/password';
-import { Counter } from '../models/counter';
-import { Note, Task } from '../models/entities';
-import { Session } from '../models/session';
-import { toUserDTO, User } from '../models/user';
-import { requireAuth } from '../plugins/auth';
+import { HttpError } from '../lib/http-error.js';
+import { hashPassword, verifyPassword } from '../lib/password.js';
+import { Counter } from '../models/counter.js';
+import { Note, Task } from '../models/entities.js';
+import { Session } from '../models/session.js';
+import { toUserDTO, User } from '../models/user.js';
+import { requireAuth } from '../plugins/auth.js';
 
 async function findUser(userId: Types.ObjectId) {
   const user = await User.findById(userId);

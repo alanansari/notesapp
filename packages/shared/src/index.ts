@@ -1,3 +1,3 @@
-export * from './auth';
-export * from './entities';
-export * from './sync';
+export * from './auth.js';
+export * from './entities.js';
+export * from './sync.js';

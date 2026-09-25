@@ -3,12 +3,12 @@ import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
 import Fastify, { type FastifyError } from 'fastify';
 import { ZodError } from 'zod';
-import type { Env } from './env';
-import { createTokenService } from './lib/tokens';
-import { authPlugin } from './plugins/auth';
-import { authRoutes } from './routes/auth';
-import { meRoutes } from './routes/me';
-import { syncRoutes } from './routes/sync';
+import type { Env } from './env.js';
+import { createTokenService } from './lib/tokens.js';
+import { authPlugin } from './plugins/auth.js';
+import { authRoutes } from './routes/auth.js';
+import { meRoutes } from './routes/me.js';
+import { syncRoutes } from './routes/sync.js';
 
 export async function buildApp(env: Env) {
   const app = Fastify({

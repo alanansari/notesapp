@@ -1,7 +1,7 @@
 import type { ClientPlatform } from '@noted/shared';
 import type { Types } from 'mongoose';
-import { Session } from '../models/session';
-import { createRefreshToken, REFRESH_TOKEN_TTL_MS, type TokenService } from './tokens';
+import { Session } from '../models/session.js';
+import { createRefreshToken, REFRESH_TOKEN_TTL_MS, type TokenService } from './tokens.js';
 
 export async function issueSession(
   tokens: TokenService,

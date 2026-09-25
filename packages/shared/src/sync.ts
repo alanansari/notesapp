@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { noteSchema, taskSchema } from './entities';
+import { noteSchema, taskSchema } from './entities.js';
 
 export const SYNC_BATCH_LIMIT = 500;
 

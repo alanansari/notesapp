@@ -1,9 +1,9 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import fp from 'fastify-plugin';
 import { Types } from 'mongoose';
-import { HttpError } from '../lib/http-error';
-import type { TokenService } from '../lib/tokens';
-import { Session } from '../models/session';
+import { HttpError } from '../lib/http-error.js';
+import type { TokenService } from '../lib/tokens.js';
+import { Session } from '../models/session.js';
 
 export interface RequestAuth {
   userId: Types.ObjectId;

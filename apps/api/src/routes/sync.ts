@@ -6,9 +6,9 @@ import {
 } from '@noted/shared';
 import type { FastifyInstance } from 'fastify';
 import { type Model, mongo, type Types } from 'mongoose';
-import { reserveSeq } from '../models/counter';
-import { Note, Task, toNoteDTO, toTaskDTO } from '../models/entities';
-import { requireAuth } from '../plugins/auth';
+import { reserveSeq } from '../models/counter.js';
+import { Note, Task, toNoteDTO, toTaskDTO } from '../models/entities.js';
+import { requireAuth } from '../plugins/auth.js';
 
 const DUPLICATE_KEY = 11000;
 
