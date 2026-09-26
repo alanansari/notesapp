@@ -22,6 +22,20 @@ export class NotedDB extends Dexie {
       tasks: 'id, column, dirty',
       meta: 'key',
     });
+    // Archive was removed: put archived notes back on the board.
+    this.version(2)
+      .stores({})
+      .upgrade((tx) =>
+        tx
+          .table<LocalNote, string>('notes')
+          .toCollection()
+          .modify((note) => {
+            if ((note.status as string) !== 'archived') return;
+            note.status = 'active';
+            note.updatedAt = nextTimestamp(note.updatedAt);
+            note.dirty = 1;
+          }),
+      );
   }
 
   async getMeta<T>(key: string): Promise<T | undefined> {

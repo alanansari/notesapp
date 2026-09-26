@@ -62,6 +62,7 @@ async function call(method: 'GET' | 'POST' | 'PATCH' | 'DELETE', url: string, bo
 describe('auth and sync', () => {
   const credentials = { email: 'alex@example.com', password: 'correct-horse' };
   let web: { accessToken: string; refreshToken: string };
+  let webCursor = 0;
 
   it('signs up and rejects duplicates', async () => {
     const res = await call('POST', '/auth/signup', { ...credentials, name: 'Alex', platform: 'web' });
@@ -80,6 +81,11 @@ describe('auth and sync', () => {
     expect(verified.status).toBe(201);
     expect(verified.body.user.email).toBe('alex@example.com');
     web = verified.body;
+
+    const starter = await call('POST', '/sync', { cursor: 0, notes: [], tasks: [] }, web.accessToken);
+    expect(starter.body.notes).toHaveLength(3);
+    expect(starter.body.tasks).toHaveLength(3);
+    webCursor = starter.body.cursor;
 
     const dup = await call('POST', '/auth/signup', { ...credentials, name: 'Alex', platform: 'web' });
     expect(dup.status).toBe(409);
@@ -131,12 +137,17 @@ describe('auth and sync', () => {
     const desktop = (await call('POST', '/auth/login', { ...credentials, platform: 'macos' })).body;
     const shared = note({ updatedAt: 10 });
 
-    const push = await call('POST', '/sync', { cursor: 0, notes: [shared], tasks: [] }, web.accessToken);
+    const push = await call(
+      'POST',
+      '/sync',
+      { cursor: webCursor, notes: [shared], tasks: [] },
+      web.accessToken,
+    );
     expect(push.status).toBe(200);
     expect(push.body.notes).toHaveLength(1);
 
     const pull = await call('POST', '/sync', { cursor: 0, notes: [], tasks: [] }, desktop.accessToken);
-    expect(pull.body.notes[0]).toMatchObject({ id: shared.id, body: 'Hello' });
+    expect(pull.body.notes.find((n: Note) => n.id === shared.id)).toMatchObject({ body: 'Hello' });
 
     const stale = await call(
       'POST',
@@ -160,6 +171,13 @@ describe('auth and sync', () => {
       web.accessToken,
     );
     expect(latest.body.notes[0].body).toBe('New');
+  });
+
+  it('stores notes archived by older clients as active', async () => {
+    const legacy = { ...note({ updatedAt: 30 }), status: 'archived' };
+    const res = await call('POST', '/sync', { cursor: 0, notes: [legacy], tasks: [] }, web.accessToken);
+    expect(res.status).toBe(200);
+    expect(res.body.notes.find((n: Note) => n.id === legacy.id)).toMatchObject({ status: 'active' });
   });
 
   it('rotates refresh tokens', async () => {

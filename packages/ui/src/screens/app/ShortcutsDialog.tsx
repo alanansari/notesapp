@@ -6,7 +6,7 @@ export const SHORTCUTS = [
   { keys: 'T', label: 'New task' },
   { keys: '/', label: 'Search' },
   { keys: '⌘ ↵', label: 'Save note' },
-  { keys: '1–4', label: 'Switch view' },
+  { keys: '1–3', label: 'Switch view' },
   { keys: 'D', label: 'Toggle dark mode' },
   { keys: 'Esc', label: 'Close' },
   { keys: '?', label: 'This list' },

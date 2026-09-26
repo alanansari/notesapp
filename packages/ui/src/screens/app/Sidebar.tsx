@@ -5,7 +5,7 @@ import { usePlatform } from '../../lib/context';
 import { useSession } from '../../lib/hooks';
 import { useTheme } from '../../lib/preferences';
 import styles from './Sidebar.module.css';
-import { type Counts, VIEWS, type View } from './views';
+import { type Counts, VIEW_ORDER, VIEWS, type View } from './views';
 
 interface NavProps {
   view: View;
@@ -40,7 +40,6 @@ export function Sidebar({ onShortcuts, ...nav }: NavProps & { onShortcuts: () =>
         <NavItem id="notes" {...nav} />
         <NavItem id="tasks" {...nav} />
         <div className={styles.divider} />
-        <NavItem id="archive" small {...nav} />
         <NavItem id="trash" small {...nav} />
       </nav>
       <div className={styles.spacer} />
@@ -87,7 +86,7 @@ export function Sidebar({ onShortcuts, ...nav }: NavProps & { onShortcuts: () =>
 export function MobileNav({ view, counts, onSelect }: NavProps) {
   return (
     <nav className={styles.mobileNav} aria-label="Views">
-      {(['notes', 'tasks', 'archive', 'trash'] as const).map((id) => (
+      {VIEW_ORDER.map((id) => (
         <button
           key={id}
           type="button"

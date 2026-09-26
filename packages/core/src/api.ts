@@ -39,6 +39,8 @@ export class NetworkError extends Error {
   }
 }
 
+const REQUEST_TIMEOUT_MS = 15_000;
+
 interface RequestOptions<T> {
   method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   body?: unknown;
@@ -58,6 +60,8 @@ export function createApiClient(baseUrl: string, sessions: SessionStore) {
         method,
         headers,
         body: body === undefined ? undefined : JSON.stringify(body),
+        // A stalled request would otherwise hold the sync lock until the browser gives up.
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       });
     } catch {
       throw new NetworkError();
@@ -122,6 +126,11 @@ export function createApiClient(baseUrl: string, sessions: SessionStore) {
     login: (input: LoginInput): Promise<AuthResponse> =>
       request('/auth/login', { method: 'POST', body: input, auth: false, schema: authResponseSchema }),
     logout: (): Promise<void> => request('/auth/logout', { method: 'POST' }),
+    // Ends a session that was issued but never stored, e.g. when a login is cancelled.
+    async revoke(accessToken: string): Promise<void> {
+      const res = await send('/auth/logout', 'POST', undefined, accessToken);
+      if (!res.ok) throw await toError(res);
+    },
     me: (): Promise<User> => request('/me', { schema: userSchema }),
     updateMe: (input: UpdateProfileInput): Promise<User> =>
       request('/me', { method: 'PATCH', body: input, schema: userSchema }),

@@ -6,15 +6,13 @@ import { Markdown } from '../../lib/markdown';
 import styles from './BinView.module.css';
 
 interface BinViewProps {
-  kind: 'archive' | 'trash';
   notes: LocalNote[];
   query: string;
 }
 
-export function BinView({ kind, notes, query }: BinViewProps) {
+export function BinView({ notes, query }: BinViewProps) {
   const client = useClient();
   const toast = useToast();
-  const archive = kind === 'archive';
 
   async function emptyTrash() {
     const ids = await client.notes.emptyTrash();
@@ -26,12 +24,8 @@ export function BinView({ kind, notes, query }: BinViewProps) {
   return (
     <section className={styles.section}>
       <div className={styles.intro}>
-        <span>
-          {archive
-            ? 'Archived notes stay searchable but off your board.'
-            : 'Notes in trash can be restored until you empty it.'}
-        </span>
-        {!archive && notes.length > 0 && !query && (
+        <span>Notes in trash can be restored until you empty it.</span>
+        {notes.length > 0 && !query && (
           <button type="button" className={styles.emptyButton} onClick={() => void emptyTrash()}>
             Empty trash
           </button>
@@ -44,7 +38,6 @@ export function BinView({ kind, notes, query }: BinViewProps) {
             <article
               key={note.id}
               className={styles.card}
-              data-kind={kind}
               style={{
                 background: `var(--note-${note.color})`,
                 ['--card-bg' as string]: `var(--note-${note.color})`,
@@ -66,44 +59,27 @@ export function BinView({ kind, notes, query }: BinViewProps) {
                 >
                   Restore
                 </button>
-                {archive ? (
-                  <button
-                    type="button"
-                    className={styles.link}
-                    onClick={() => {
-                      void client.notes.setStatus(note.id, 'trashed');
-                      toast('Moved to trash', () => client.notes.setStatus(note.id, 'archived'));
-                    }}
-                  >
-                    Move to trash
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className={styles.link}
-                    onClick={() => {
-                      void client.notes.remove(note.id);
-                      toast('Note deleted', () => client.notes.restoreDeleted(note.id));
-                    }}
-                  >
-                    Delete forever
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className={styles.link}
+                  onClick={() => {
+                    void client.notes.remove(note.id);
+                    toast('Note deleted', () => client.notes.restoreDeleted(note.id));
+                  }}
+                >
+                  Delete forever
+                </button>
               </div>
             </article>
           ))}
         </div>
       ) : (
         <div className={styles.emptyState}>
-          <div className={styles.emptyTitle}>
-            {query ? 'No matches' : archive ? 'Archive is empty' : 'Trash is empty'}
-          </div>
+          <div className={styles.emptyTitle}>{query ? 'No matches' : 'Trash is empty'}</div>
           <div className={styles.emptyText}>
             {query
               ? 'Nothing here matches your search.'
-              : archive
-                ? 'Open a note and choose Archive to tuck it away without deleting it.'
-                : 'Deleted notes show up here first, so nothing disappears by accident.'}
+              : 'Deleted notes show up here first, so nothing disappears by accident.'}
           </div>
         </div>
       )}

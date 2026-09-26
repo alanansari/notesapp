@@ -276,6 +276,61 @@
   color: var(--brand);
 }
 
+.dialog {
+  max-width: 440px;
+  background: var(--surface);
+  border-radius: var(--radius-panel);
+  padding: 26px;
+  gap: 14px;
+}
+
+.dialog h3 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 22px;
+}
+
+.dialogText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.choice {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+}
+
+.choice:hover,
+.choice:focus-visible {
+  border-color: var(--brand);
+}
+
+.choiceTitle {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.choiceText {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 .art {
   flex: 1 1 460px;
   min-height: 100vh;

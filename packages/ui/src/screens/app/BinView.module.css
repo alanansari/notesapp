@@ -47,9 +47,6 @@
   flex-direction: column;
   gap: 14px;
   color: var(--note-ink);
-}
-
-.card[data-kind="trash"] {
   opacity: 0.85;
 }
 

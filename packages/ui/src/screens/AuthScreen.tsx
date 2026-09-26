@@ -1,9 +1,16 @@
-import { ApiError, NetworkError } from '@noted/core';
+import {
+  ApiError,
+  type LocalDataChoice,
+  type LocalDataSummary,
+  NetworkError,
+  type ResolveLocalData,
+} from '@noted/core';
 import type { PendingSignup } from '@noted/shared';
-import { type FormEvent, useEffect, useState } from 'react';
+import { type FormEvent, type ReactNode, useEffect, useState } from 'react';
+import { Modal } from '../components/Modal';
 import { useClient, usePlatform } from '../lib/context';
 import { cx, EMAIL_PATTERN } from '../lib/format';
-import { useOnline, usePendingCount, useSession } from '../lib/hooks';
+import { useLocalDataSummary, useOnline, useSession } from '../lib/hooks';
 import styles from './AuthScreen.module.css';
 
 type Mode = 'login' | 'signup';
@@ -29,6 +36,57 @@ function describeError(error: unknown): string {
   return 'Something went wrong. Please try again.';
 }
 
+const plural = (count: number, word: string) => `${count} ${word}${count === 1 ? '' : 's'}`;
+
+function describeLocal({ notes, tasks }: LocalDataSummary): string {
+  return [notes && plural(notes, 'note'), tasks && plural(tasks, 'task')].filter(Boolean).join(' and ');
+}
+
+// Lets the client pause a login until the user picks what happens to this device's data.
+function useLocalDataPrompt(cancellable: boolean): [ResolveLocalData, ReactNode] {
+  const [prompt, setPrompt] = useState<{
+    summary: LocalDataSummary;
+    settle: (choice: LocalDataChoice | null) => void;
+  } | null>(null);
+
+  const resolve: ResolveLocalData = (summary) => new Promise((settle) => setPrompt({ summary, settle }));
+
+  function choose(choice: LocalDataChoice | null) {
+    prompt?.settle(choice);
+    setPrompt(null);
+  }
+
+  const dialog = prompt && (
+    <Modal label="Notes on this device" className={styles.dialog} onClose={() => cancellable && choose(null)}>
+      <h3>What about the notes on this device?</h3>
+      <p className={styles.dialogText}>
+        This device has {describeLocal(prompt.summary)} that aren’t in your account yet.
+      </p>
+      <div className={styles.choices}>
+        <button type="button" className={styles.choice} autoFocus onClick={() => choose('merge')}>
+          <strong className={styles.choiceTitle}>Add them to my account</strong>
+          <span className={styles.choiceText}>
+            Keep everything on this device and sync it alongside your account’s notes.
+          </span>
+        </button>
+        <button type="button" className={styles.choice} onClick={() => choose('replace')}>
+          <strong className={styles.choiceTitle}>Use my account’s data only</strong>
+          <span className={styles.choiceText}>
+            Remove them from this device and load your account’s notes and tasks instead.
+          </span>
+        </button>
+      </div>
+      {cancellable && (
+        <button type="button" className={styles.back} onClick={() => choose(null)}>
+          Cancel
+        </button>
+      )}
+    </Modal>
+  );
+
+  return [resolve, dialog];
+}
+
 function strength(password: string): number {
   let score = 0;
   if (password.length >= 8) score++;
@@ -43,7 +101,8 @@ export function AuthScreen({ mode }: { mode: Mode }) {
   const { navigate, kind } = usePlatform();
   const session = useSession();
   const online = useOnline();
-  const localCount = usePendingCount();
+  const local = useLocalDataSummary();
+  const [resolveLocalData, localDataDialog] = useLocalDataPrompt(true);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -88,8 +147,9 @@ export function AuthScreen({ mode }: { mode: Mode }) {
         setPending(await client.auth.signup({ name: name.trim(), email: email.trim(), password }));
         setLoading(false);
       } else {
-        await client.auth.login({ email: email.trim(), password });
-        navigate('app');
+        const user = await client.auth.login({ email: email.trim(), password }, resolveLocalData);
+        if (user) navigate('app');
+        else setLoading(false);
       }
     } catch (error) {
       setFormError(describeError(error));
@@ -229,9 +289,9 @@ export function AuthScreen({ mode }: { mode: Mode }) {
                 {loading ? 'Just a moment…' : submitLabel}
               </button>
 
-              {localCount > 0 && (
+              {local.notes + local.tasks > 0 && (
                 <p className={styles.small}>
-                  {localCount} item{localCount === 1 ? '' : 's'} saved on this device will be added to your
+                  You have {describeLocal(local)} on this device. You’ll choose whether to add them to your
                   account.
                 </p>
               )}
@@ -242,6 +302,8 @@ export function AuthScreen({ mode }: { mode: Mode }) {
           )}
         </div>
       </div>
+
+      {localDataDialog}
 
       <div className={styles.art} aria-hidden>
         <div className={styles.dots} />
@@ -283,6 +345,8 @@ function VerifyEmailForm({
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
   const [now, setNow] = useState(Date.now);
+  // The account already exists once the code is verified, so there's nothing to cancel back to.
+  const [resolveLocalData, localDataDialog] = useLocalDataPrompt(false);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -302,7 +366,7 @@ function VerifyEmailForm({
     setError(null);
     setNotice(null);
     try {
-      await client.auth.verifySignup({ email: pending.email, code });
+      await client.auth.verifySignup({ email: pending.email, code }, resolveLocalData);
       navigate('app');
     } catch (err) {
       setError(describeError(err));
@@ -326,54 +390,57 @@ function VerifyEmailForm({
   }
 
   return (
-    <form className={styles.form} noValidate onSubmit={submit}>
-      <div className={styles.heading}>
-        <h1>Check your email</h1>
-        <p>
-          We sent a 6-digit code to <strong className={styles.ink}>{pending.email}</strong>. Enter it below to
-          finish creating your account.
-        </p>
-      </div>
+    <>
+      <form className={styles.form} noValidate onSubmit={submit}>
+        <div className={styles.heading}>
+          <h1>Check your email</h1>
+          <p>
+            We sent a 6-digit code to <strong className={styles.ink}>{pending.email}</strong>. Enter it below
+            to finish creating your account.
+          </p>
+        </div>
 
-      <label className={styles.field}>
-        <span>Verification code</span>
-        <input
-          className={cx(styles.input, styles.code, error && styles.invalid)}
-          value={code}
-          inputMode="numeric"
-          autoComplete="one-time-code"
-          maxLength={6}
-          placeholder="123456"
-          autoFocus
-          onChange={(e) => {
-            setCode(e.target.value.replace(/\D/g, '').slice(0, 6));
-            setError(null);
-          }}
-        />
-      </label>
+        <label className={styles.field}>
+          <span>Verification code</span>
+          <input
+            className={cx(styles.input, styles.code, error && styles.invalid)}
+            value={code}
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            maxLength={6}
+            placeholder="123456"
+            autoFocus
+            onChange={(e) => {
+              setCode(e.target.value.replace(/\D/g, '').slice(0, 6));
+              setError(null);
+            }}
+          />
+        </label>
 
-      {notice && <div className={styles.success}>{notice}</div>}
-      {error && <div className={styles.formError}>{error}</div>}
+        {notice && <div className={styles.success}>{notice}</div>}
+        {error && <div className={styles.formError}>{error}</div>}
 
-      <button type="submit" className={styles.submit} disabled={loading || !online}>
-        {loading ? 'Just a moment…' : 'Verify email'}
-      </button>
-
-      <p className={styles.small}>
-        Didn’t get it? Check your spam folder, or{' '}
-        <button
-          type="button"
-          className={styles.inlineLink}
-          disabled={wait > 0 || resending || !online}
-          onClick={resend}
-        >
-          {resending ? 'sending…' : wait > 0 ? `resend in ${wait}s` : 'send a new code'}
+        <button type="submit" className={styles.submit} disabled={loading || !online}>
+          {loading ? 'Just a moment…' : 'Verify email'}
         </button>
-        .
-      </p>
-      <button type="button" className={styles.back} onClick={onBack}>
-        ← Use a different email
-      </button>
-    </form>
+
+        <p className={styles.small}>
+          Didn’t get it? Check your spam folder, or{' '}
+          <button
+            type="button"
+            className={styles.inlineLink}
+            disabled={wait > 0 || resending || !online}
+            onClick={resend}
+          >
+            {resending ? 'sending…' : wait > 0 ? `resend in ${wait}s` : 'send a new code'}
+          </button>
+          .
+        </p>
+        <button type="button" className={styles.back} onClick={onBack}>
+          ← Use a different email
+        </button>
+      </form>
+      {localDataDialog}
+    </>
   );
 }

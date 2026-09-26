@@ -125,9 +125,6 @@ export default function LandingPage() {
                     <small>7</small>
                   </div>
                   <div className={styles.previewNav} data-muted="true">
-                    Archive
-                  </div>
-                  <div className={styles.previewNav} data-muted="true">
                     Trash
                   </div>
                 </div>

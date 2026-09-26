@@ -38,14 +38,12 @@ export function NoteEditor({ note, onClose }: { note: LocalNote; onClose: () => 
     onClose();
   }
 
-  async function changeStatus(status: 'archived' | 'trashed') {
+  async function moveToTrash() {
     clearTimeout(saveTimer.current);
     if (body !== note.body) await client.notes.update(note.id, { body });
-    await client.notes.setStatus(note.id, status);
+    await client.notes.setStatus(note.id, 'trashed');
     onClose();
-    toast(status === 'archived' ? 'Note archived' : 'Moved to trash', () =>
-      client.notes.setStatus(note.id, 'active'),
-    );
+    toast('Moved to trash', () => client.notes.setStatus(note.id, 'active'));
   }
 
   useEffect(() => {
@@ -134,10 +132,7 @@ export function NoteEditor({ note, onClose }: { note: LocalNote; onClose: () => 
             onChange={(color) => void client.notes.update(note.id, { color })}
           />
           <span className={styles.edited}>Edited {formatDate(note.updatedAt)}</span>
-          <button type="button" className={styles.ghost} onClick={() => void changeStatus('archived')}>
-            Archive
-          </button>
-          <button type="button" className={styles.ghost} onClick={() => void changeStatus('trashed')}>
+          <button type="button" className={styles.ghost} onClick={() => void moveToTrash()}>
             Delete
           </button>
           <button type="button" className={styles.primary} onClick={() => void close()}>

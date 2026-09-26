@@ -1,5 +1,12 @@
 export { type ApiClient, ApiError, createApiClient, NetworkError } from './api';
-export { createNotedClient, type NotedClient, type NotedClientOptions } from './client';
+export {
+  createNotedClient,
+  type LocalDataChoice,
+  type LocalDataSummary,
+  type NotedClient,
+  type NotedClientOptions,
+  type ResolveLocalData,
+} from './client';
 export { type LocalNote, type LocalTask, NotedDB } from './db';
 export type { NewNoteInput, NotesRepo } from './notes';
 export type { Session } from './session';

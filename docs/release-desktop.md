@@ -51,7 +51,7 @@ The output goes to `apps/desktop/release/`. If you run this from a VS Code termi
 
 Without signing, the installers work, but the OS warns people the first time they open them:
 
-- **macOS:** "Noted can't be opened because Apple cannot check it for malicious software." Right-click the app → **Open**, or System Settings → Privacy & Security → **Open Anyway**.
+- **macOS:** "Apple could not verify Noted is free of malware." Click **Done**, then System Settings → Privacy & Security → **Open Anyway** (right-click → Open no longer works on macOS 15+). Alternatively run `xattr -dr com.apple.quarantine /Applications/Noted.app`. Unsigned builds are ad-hoc signed; without that, Apple silicon Macs refuse to launch the app at all.
 - **Windows:** SmartScreen shows "Windows protected your PC". Click **More info** → **Run anyway**.
 
 To remove these warnings, add the credentials as repository secrets. The workflow already passes them to electron-builder, which signs (and on macOS notarizes) when they're present.

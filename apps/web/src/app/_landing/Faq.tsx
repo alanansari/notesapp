@@ -18,10 +18,7 @@ const FAQS: [question: string, answer: string][] = [
     'Yes. Noted runs in any modern browser. Sign in with the same account on the desktop app and your notes are already there.',
   ],
   ['Which systems does the desktop app support?', 'The desktop app is available for macOS and Windows.'],
-  [
-    'What happens to deleted notes?',
-    'Deleted notes go to Trash first, where you can restore them. Archive lets you hide notes from your board without deleting them.',
-  ],
+  ['What happens to deleted notes?', 'Deleted notes go to Trash first, where you can restore them.'],
 ];
 
 export function Faq() {

@@ -52,7 +52,6 @@ function Workspace({ mobile }: { mobile: boolean }) {
   const counts: Counts = {
     notes: active.length,
     tasks: tasks.filter((t) => t.column !== 'done').length,
-    archive: notes.filter((n) => n.status === 'archived').length,
     trash: notes.filter((n) => n.status === 'trashed').length,
   };
 
@@ -69,12 +68,8 @@ function Workspace({ mobile }: { mobile: boolean }) {
   }, [active]);
 
   const visible = active.filter((n) => matches(n.body, n.tags) && (!tagFilter || n.tags.includes(tagFilter)));
-  const binNotes =
-    view === 'archive' || view === 'trash'
-      ? notes.filter(
-          (n) => n.status === (view === 'archive' ? 'archived' : 'trashed') && matches(n.body, n.tags),
-        )
-      : [];
+  const trashNotes =
+    view === 'trash' ? notes.filter((n) => n.status === 'trashed' && matches(n.body, n.tags)) : [];
 
   const noteBeingEdited = notes.find((n) => n.id === editingNote);
   const taskBeingEdited = tasks.find((t) => t.id === editingTask);
@@ -122,7 +117,7 @@ function Workspace({ mobile }: { mobile: boolean }) {
         setTheme(theme === 'dark' ? 'light' : 'dark');
       } else if (e.key === '?') {
         setShowShortcuts(true);
-      } else if (['1', '2', '3', '4'].includes(e.key)) {
+      } else if (['1', '2', '3'].includes(e.key)) {
         go(VIEW_ORDER[Number(e.key) - 1] as View);
       }
     };
@@ -281,9 +276,7 @@ function Workspace({ mobile }: { mobile: boolean }) {
         {!loading && view === 'tasks' && (
           <Kanban ref={kanban} tasks={tasks} query={query} onOpen={setEditingTask} />
         )}
-        {!loading && (view === 'archive' || view === 'trash') && (
-          <BinView kind={view} notes={binNotes} query={q} />
-        )}
+        {!loading && view === 'trash' && <BinView notes={trashNotes} query={q} />}
       </main>
 
       {mobile && (

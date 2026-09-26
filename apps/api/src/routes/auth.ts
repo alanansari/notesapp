@@ -8,6 +8,7 @@ import {
 } from '@noted/shared';
 import type { FastifyInstance } from 'fastify';
 import { mongo } from 'mongoose';
+import { seedAccount } from '../lib/defaults.js';
 import { HttpError } from '../lib/http-error.js';
 import { type Mailer, verificationEmail } from '../lib/mailer.js';
 import { hashPassword, verifyPassword } from '../lib/password.js';
@@ -113,6 +114,8 @@ export async function authRoutes(
     } finally {
       await pending.deleteOne();
     }
+    // A missing starter board shouldn't block sign-up.
+    await seedAccount(user._id).catch((error) => request.log.error(error, 'Could not seed new account'));
     const pair = await issueSession(tokens, user._id, input.platform, request.headers['user-agent'] ?? '');
     return reply.code(201).send({ user: toUserDTO(user), ...pair });
   });

@@ -49,6 +49,11 @@ jobs:
           else
             echo "CSC_IDENTITY_AUTO_DISCOVERY=false" >> "$GITHUB_ENV"
             echo "No signing certificate configured; building unsigned."
+            # Apple silicon refuses to launch an unsealed bundle, so ad-hoc sign it.
+            # Hardened runtime's library validation fails on ad-hoc signatures.
+            if [ "$RUNNER_OS" = "macOS" ]; then
+              echo "SIGN_ARGS=-c.mac.identity=- -c.mac.hardenedRuntime=false" >> "$GITHUB_ENV"
+            fi
           fi
           if [ "$RUNNER_OS" = "macOS" ] && [ -n "$CERTIFICATE" ] && [ -n "$APPLE_ID" ]; then
             echo "APPLE_ID=$APPLE_ID" >> "$GITHUB_ENV"
@@ -56,7 +61,7 @@ jobs:
             echo "APPLE_TEAM_ID=$APPLE_TEAM_ID" >> "$GITHUB_ENV"
           fi
 
-      - run: pnpm exec electron-builder ${{ matrix.platform }} --publish ${{ github.ref_type == 'tag' && 'always' || 'never' }}
+      - run: pnpm exec electron-builder ${{ matrix.platform }} $SIGN_ARGS --publish ${{ github.ref_type == 'tag' && 'always' || 'never' }}
         working-directory: apps/desktop
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

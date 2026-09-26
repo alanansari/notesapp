@@ -1,4 +1,4 @@
-import type { LocalNote, LocalTask, Session, SyncState } from '@noted/core';
+import type { LocalDataSummary, LocalNote, LocalTask, Session, SyncState } from '@noted/core';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
 import { useClient } from './context';
@@ -27,6 +27,11 @@ export function useSession(): Session | null | undefined {
 export function usePendingCount(): number {
   const client = useClient();
   return useLiveQuery(() => client.pendingCount(), [client]) ?? 0;
+}
+
+export function useLocalDataSummary(): LocalDataSummary {
+  const client = useClient();
+  return useLiveQuery(() => client.localDataSummary(), [client]) ?? { notes: 0, tasks: 0 };
 }
 
 export function useLastSyncedAt(): number | null {

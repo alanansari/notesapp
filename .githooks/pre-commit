@@ -1,0 +1,9 @@
+#!/bin/sh
+# Runs before every commit. Bypass in an emergency with `git commit --no-verify`.
+set -e
+
+echo "pre-commit: biome check (staged files)"
+pnpm exec biome check --staged --no-errors-on-unmatched --files-ignore-unknown=true
+
+echo "pre-commit: typecheck"
+pnpm typecheck --output-logs=errors-only
