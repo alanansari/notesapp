@@ -1,7 +1,7 @@
 {
   "name": "@noted/desktop",
   "productName": "Noted",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Noted. Sticky notes and tasks that work offline and sync everywhere.",
   "author": "Alan Ansari",
   "private": true,
